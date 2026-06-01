@@ -1,0 +1,75 @@
+// قاعدة البيانات الافتراضية المستوردة والمصححة لنظام VetStock Pro
+window.DEFAULT_DATA = {
+  "products": [
+    { "code": "1001", "name": "BIO GROW", "category": "دواجن", "unit": "لتر", "initial_stock": 1669, "reorder_limit": 300, "expiry": "2026-12-31", "price_sell": 120, "price_buy": 90 },
+    { "code": "1002", "name": "IMMURAN PLUS", "category": "دواجن", "unit": "لتر", "initial_stock": 990, "reorder_limit": 300, "expiry": "2027-02-28", "price_sell": 180, "price_buy": 135 },
+    { "code": "1003", "name": "NADOX- L", "category": "دواجن", "unit": "لتر", "initial_stock": 1170, "reorder_limit": 400, "expiry": "2026-10-31", "price_sell": 150, "price_buy": 110 },
+    { "code": "1004", "name": "VENTALEX", "category": "دواجن", "unit": "لتر", "initial_stock": 239, "reorder_limit": 300, "expiry": "2026-05-15", "price_sell": 95, "price_buy": 70 }, // قاربت على الانتهاء/منتهية الصلاحية
+    { "code": "1005", "name": "NADOX-LTD plus", "category": "دواجن", "unit": "لتر", "initial_stock": 818, "reorder_limit": 400, "expiry": "2027-01-15", "price_sell": 160, "price_buy": 120 },
+    { "code": "1006", "name": "NADLEX ADE3 PLUS (100-20-20)", "category": "دواجن", "unit": "لتر", "initial_stock": 246, "reorder_limit": 500, "expiry": "2026-09-30", "price_sell": 210, "price_buy": 160 }, // مخزون تحت الحد
+    { "code": "1007", "name": "NADLEX E+SE 100 ml.", "category": "ماشية", "unit": "100 مل", "initial_stock": 4322, "reorder_limit": 800, "expiry": "2027-04-30", "price_sell": 45, "price_buy": 32 },
+    { "code": "1008", "name": "BIOVIR", "category": "دواجن", "unit": "لتر", "initial_stock": 1485, "reorder_limit": 300, "expiry": "2026-11-30", "price_sell": 110, "price_buy": 80 },
+    { "code": "1010", "name": "NADLEX E+SE", "category": "دواجن", "unit": "لتر", "initial_stock": 676, "reorder_limit": 400, "expiry": "2026-08-31", "price_sell": 130, "price_buy": 95 },
+    { "code": "1011", "name": "NADLEX ADE3(100-40-20)", "category": "دواجن", "unit": "لتر", "initial_stock": 65, "reorder_limit": 400, "expiry": "2026-07-31", "price_sell": 195, "price_buy": 145 }, // مخزون تحت الحد وقريب الصلاحية
+    { "code": "1012", "name": "NADGEN", "category": "دواجن", "unit": "لتر", "initial_stock": 230, "reorder_limit": 300, "expiry": "2027-03-31", "price_sell": 140, "price_buy": 105 }, // مخزون تحت الحد
+    { "code": "1013", "name": "AD3E 100 ml", "category": "ماشية", "unit": "100 مل", "initial_stock": 3992, "reorder_limit": 800, "expiry": "2027-06-30", "price_sell": 55, "price_buy": 40 },
+    { "code": "1014", "name": "AMINOLEX 100 ml", "category": "ماشية", "unit": "100 مل", "initial_stock": 3292, "reorder_limit": 800, "expiry": "2027-05-31", "price_sell": 50, "price_buy": 35 },
+    { "code": "1015", "name": "NAD C 100", "category": "دواجن", "unit": "كجم", "initial_stock": 743, "reorder_limit": 150, "expiry": "2026-10-15", "price_sell": 85, "price_buy": 60 },
+    { "code": "1016", "name": "VITAMIX L", "category": "دواجن", "unit": "لتر", "initial_stock": 881, "reorder_limit": 450, "expiry": "2027-01-31", "price_sell": 115, "price_buy": 85 },
+    { "code": "1017", "name": "CALDEX", "category": "دواجن", "unit": "لتر", "initial_stock": 3, "reorder_limit": 400, "expiry": "2026-06-30", "price_sell": 75, "price_buy": 50 }, // مخزون حرج جداً وصلاحية قريبة
+    { "code": "1018", "name": "MYCOMASTER", "category": "دواجن", "unit": "لتر", "initial_stock": 919, "reorder_limit": 80, "expiry": "2027-03-31", "price_sell": 240, "price_buy": 180 },
+    { "code": "2001", "name": "ADELIX أدليكس", "category": "دواجن", "unit": "لتر", "initial_stock": 3000, "reorder_limit": 500, "expiry": "2027-04-30", "price_sell": 130, "price_buy": 95 },
+    { "code": "2002", "name": "ADELIX PLUS  أدليكس بلس", "category": "دواجن", "unit": "لتر", "initial_stock": 1000, "reorder_limit": 500, "expiry": "2027-05-31", "price_sell": 150, "price_buy": 110 },
+    { "code": "2003", "name": "VITALFORT فيتال فورت", "category": "دواجن", "unit": "لتر", "initial_stock": 2500, "reorder_limit": 500, "expiry": "2027-02-28", "price_sell": 90, "price_buy": 65 },
+    { "code": "2004", "name": "SHELL PRO شيلبرو", "category": "دواجن", "unit": "لتر", "initial_stock": 2500, "reorder_limit": 500, "expiry": "2027-03-31", "price_sell": 140, "price_buy": 100 },
+    { "code": "2005", "name": "HEPAXIN هيباكسين", "category": "دواجن", "unit": "لتر", "initial_stock": 2000, "reorder_limit": 500, "expiry": "2027-06-30", "price_sell": 125, "price_buy": 90 },
+    { "code": "2006", "name": "RESPIVEX ريسبيفكس", "category": "دواجن", "unit": "لتر", "initial_stock": 2500, "reorder_limit": 500, "expiry": "2027-01-31", "price_sell": 110, "price_buy": 80 },
+    { "code": "2007", "name": "SELEVIT SE سيليفيت إس إي", "category": "دواجن", "unit": "لتر", "initial_stock": 3000, "reorder_limit": 500, "expiry": "2027-04-30", "price_sell": 115, "price_buy": 85 }
+  ],
+  "customers": [
+    { "name": "مزرعة حسني للدواجن", "region": "الغربية", "initial_balance": 0.0, "phone": "0501234567", "email": "hosny@example.com" },
+    { "name": "القاضي", "region": "الغربية", "initial_balance": 79200.0, "phone": "0502345678", "email": "alkadi@example.com" },
+    { "name": "منابع الحرمين للدواجن", "region": "الغربية", "initial_balance": 80625.0, "phone": "0503456789", "email": "manabea@example.com" },
+    { "name": "مزرعة الحسيني", "region": "الوسطى", "initial_balance": 9500.0, "phone": "0504567890", "email": "housseini@example.com" },
+    { "name": "الشاردي", "region": "الغربية", "initial_balance": 6000.0, "phone": "0505678901", "email": "shardi1@example.com" },
+    { "name": "الشاردي - الرغامة", "region": "الغربية", "initial_balance": 11500.0, "phone": "0506789012", "email": "shardi2@example.com" },
+    { "name": "ركن الريف", "region": "الوسطى", "initial_balance": 0.0, "phone": "0507890123", "email": "reef@example.com" },
+    { "name": "رواد البيطرة", "region": "الوسطى", "initial_balance": 11000.0, "phone": "0508901234", "email": "rowad@example.com" },
+    { "name": "بيض مكنون", "region": "الوسطى", "initial_balance": 0.0, "phone": "0509012345", "email": "maknoon@example.com" },
+    { "name": "مزارع البياض", "region": "الوسطى", "initial_balance": 21900.0, "phone": "0500123456", "email": "bayad@example.com" },
+    { "name": "مؤسسة حسن عالي المطرفي", "region": "الغربية", "initial_balance": 0.0, "phone": "0501112223", "email": "mutrafi@example.com" },
+    { "name": "عيادة الصحة والرعاية", "region": "الجنوبية", "initial_balance": 7650.0, "phone": "0502223334", "email": "health@example.com" },
+    { "name": "صيدلية سمية الاسمري", "region": "الجنوبية", "initial_balance": 9750.0, "phone": "0503334445", "email": "somaya@example.com" },
+    { "name": "صيدلية مدار العلاج", "region": "الجنوبية", "initial_balance": 0.0, "phone": "0504445556", "email": "madar@example.com" },
+    { "name": "صيدلية أميرة الأسمري", "region": "الجنوبية", "initial_balance": 1035.0, "phone": "0505556667", "email": "amira@example.com" },
+    { "name": "القاضي تبوك", "region": "الغربية", "initial_balance": 26700.0, "phone": "0506667778", "email": "kadi_tabuk@example.com" },
+    { "name": "شركة النايفات لللآبحاث", "region": "الشرقية", "initial_balance": 0.0, "phone": "0507778889", "email": "nayifat@example.com" },
+    { "name": "بوادي البركة", "region": "الغربية", "initial_balance": 18000.0, "phone": "0508889990", "email": "bawadi@example.com" },
+    { "name": "الهجرة للدواجن", "region": "الغربية", "initial_balance": 37275.0, "phone": "0509990001", "email": "hijra_poultry@example.com" },
+    { "name": "صيدلية سلسبيل الشفا", "region": "الجنوبية", "initial_balance": 0.0, "phone": "0501239876", "email": "salsabil@example.com" },
+    { "name": "عيادة لينة حجي", "region": "الجنوبية", "initial_balance": 3360.0, "phone": "0502348765", "email": "lina@example.com" },
+    { "name": "صيدلية وسام الجنوب", "region": "الجنوبية", "initial_balance": 0.0, "phone": "0503457654", "email": "wisam@example.com" },
+    { "name": "غازي الصالح", "region": "الجنوبية", "initial_balance": 0.0, "phone": "0504566543", "email": "ghazi@example.com" },
+    { "name": "عبدالله محمد عقيلي", "region": "الجنوبية", "initial_balance": 0.0, "phone": "0505675432", "email": "aqeeli@example.com" },
+    { "name": "أحمد علي مشرفي", "region": "الجنوبية", "initial_balance": 1470.0, "phone": "0506784321", "email": "mushrefi@example.com" },
+    { "name": "شركة الهجرة المتميزة", "region": "الغربية", "initial_balance": 18000.0, "phone": "0507893210", "email": "hijra_dist@example.com" },
+    { "name": "سراة عبيدة", "region": "الجنوبية", "initial_balance": 4500.0, "phone": "0508902109", "email": "sarah@example.com" },
+    { "name": "صيدلية نوادر الحلال", "region": "الجنوبية", "initial_balance": 2940.0, "phone": "0509011098", "email": "nwadir@example.com" },
+    { "name": "صيدلية إبراهيم قاسم شعيبي", "region": "الجنوبية", "initial_balance": 0.0, "phone": "0500120987", "email": "shuaibi@example.com" },
+    { "name": "زكي الاهدلي(مراح النوادر)", "region": "الجنوبية", "initial_balance": 0.0, "phone": "0501110987", "email": "zaki@example.com" },
+    { "name": "صيدلية العسيري", "region": "الجنوبية", "initial_balance": 0.0, "phone": "0502220987", "email": "asiri@example.com" },
+    { "name": "صيدلية أنعام الوادي", "region": "الجنوبية", "initial_balance": 0.0, "phone": "0503330987", "email": "anaam@example.com" },
+    { "name": "صيدلية المؤهل المتكاملة", "region": "الجنوبية", "initial_balance": 0.0, "phone": "0504440987", "email": "moahel@example.com" },
+    { "name": "العلام جروب للدواجن", "region": "الجنوبية", "initial_balance": 0.0, "phone": "0505550987", "email": "allam@example.com" },
+    { "name": "طارق مبارك", "region": "الغربية", "initial_balance": 0.0, "phone": "0506660987", "email": "tarek@example.com" },
+    { "name": "مراح النوادر", "region": "الجنوبية", "initial_balance": 0.0, "phone": "0507770987", "email": "marah@example.com" },
+    { "name": "شركة الاستدامة التنموية البياض", "region": "الجنوبية", "initial_balance": 0.0, "phone": "0508880987", "email": "estedama_b@example.com" },
+    { "name": "ص دينا إبراهيم تركي", "region": "الجنوبية", "initial_balance": 0.0, "phone": "0509990987", "email": "dina@example.com" },
+    { "name": "ص سبل العناية", "region": "الجنوبية", "initial_balance": 0.0, "phone": "0501230000", "email": "sobol@example.com" },
+    { "name": "شركة الاستدامة التنموية الأفلاج", "region": "الجنوبية", "initial_balance": 0.0, "phone": "0502340000", "email": "estedama_a@example.com" },
+    { "name": "صيدلية أبوعوف(حميد راجح)", "region": "الغربية", "initial_balance": 0.0, "phone": "0503450000", "email": "abou_auf@example.com" },
+    { "name": "القوى الخامسة", "region": "الجنوبية", "initial_balance": 0.0, "phone": "0504560000", "email": "forces5@example.com" },
+    { "name": "شركة القرية المحدودة AlQarya Co. LTD", "region": "الوسطى", "initial_balance": 0.0, "phone": "0505670000", "email": "alqarya@example.com" }
+  ]
+};
+console.log("Database initialized. Products count:", window.DEFAULT_DATA.products.length, "Customers count:", window.DEFAULT_DATA.customers.length);

@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>VetStock Pro - نظام المبيعات والمخزون البيطري</title>
+  
+  <!-- تعريف بخصائص الـ PWA للآيفون -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="VetStock">
+  <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiI+CiAgPGRlZnM+CiAgICA8IS0tIEJhY2tncm91bmQgR3JhZGllbnQ6IERlZXAgcmljaCBlbWVyYWxkIGdyZWVuIGNsaW5pY2FsIGRhcmsgZ3JhZGllbnQgLS0+CiAgICA8cmFkaWFsR3JhZGllbnQgaWQ9ImJnR3JhZCIgY3g9IjUwJSIgY3k9IjUwJSIgcj0iNzAlIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzE0M2UyYiIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMwNTE0MGUiLz4KICAgIDwvcmFkaWFsR3JhZGllbnQ+CiAgICAKICAgIDwhLS0gR29sZCBHcmFkaWVudCBmb3IgT3V0ZXIgU2hpZWxkIFJpbmcgYW5kIGRldGFpbHMgLS0+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImdvbGRHcmFkIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2Y2ZDM2NSIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmZGEwODUiLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICAKICAgIDwhLS0gTmVvbiBNaW50IEdyYWRpZW50IGZvciB0aGUgVmV0ZXJpbmFyeSBTeW1ib2wgLS0+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9Im1pbnRHcmFkIiB4MT0iMCUiIHkxPSIxMDAlIiB4Mj0iMTAwJSIgeTI9IjAlIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzA1OTY2OSIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjUwJSIgc3RvcC1jb2xvcj0iIzEwYjk4MSIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMzNGQzOTkiLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CgogICAgPCEtLSBEcm9wIFNoYWRvdyBmb3IgdGhlIGNlbnRyYWwgZWxlbWVudHMgdG8gZ2l2ZSBhIDNEIGZsb2F0IGxvb2sgLS0+CiAgICA8ZmlsdGVyIGlkPSJkcm9wU2hhZG93IiB4PSItMjAlIiB5PSItMjAlIiB3aWR0aD0iMTQwJSIgaGVpZ2h0PSIxNDAlIj4KICAgICAgPGZlRHJvcFNoYWRvdyBkeD0iMCIgZHk9IjgiIHN0ZERldmlhdGlvbj0iMTIiIGZsb29kLWNvbG9yPSIjMDAwIiBmbG9vZC1vcGFjaXR5PSIwLjUiLz4KICAgICAgPGZlRHJvcFNoYWRvdyBkeD0iMCIgZHk9IjIiIHN0ZERldmlhdGlvbj0iNCIgZmxvb2QtY29sb3I9IiMxMGI5ODEiIGZsb29kLW9wYWNpdHk9IjAuMTUiLz4KICAgIDwvZmlsdGVyPgogIDwvZGVmcz4KCiAgPCEtLSBCYXNlIFJvdW5kZWQgQ29udGFpbmVyIChTdGFuZGFyZCBpT1MgU2hhcGUpIC0tPgogIDxyZWN0IHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiByeD0iMTEyIiBmaWxsPSJ1cmwoI2JnR3JhZCkiLz4KICAKICA8IS0tIFN1YnRsZSBpbm5lciBib3JkZXIgZm9yIHByZW1pdW0gZ2xhc3MvbWV0YWxsaWMgc2hlZW4gLS0+CiAgPHJlY3QgeD0iMTIiIHk9IjEyIiB3aWR0aD0iNDg4IiBoZWlnaHQ9IjQ4OCIgcng9IjEwMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ1cmwoI2dvbGRHcmFkKSIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZS1vcGFjaXR5PSIwLjQiLz4KICA8cmVjdCB4PSIyNCIgeT0iMjQiIHdpZHRoPSI0NjQiIGhlaWdodD0iNDY0IiByeD0iODgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzEwYjk4MSIgc3Ryb2tlLXdpZHRoPSIxIiBzdHJva2Utb3BhY2l0eT0iMC4xNSIvPgoKICA8IS0tIENlbnRlcmVkIEdyYXBoaWMgQ29udGVudCBHcm91cCB3aXRoIFNoYWRvdyAtLT4KICA8ZyBmaWx0ZXI9InVybCgjZHJvcFNoYWRvdykiPgogICAgPCEtLSBPdXRlciBFbGVnYW50IEdvbGRlbiBTaGllbGQvUmluZyAtLT4KICAgIDxjaXJjbGUgY3g9IjI1NiIgY3k9IjI1NiIgcj0iMTYwIiBmaWxsPSJub25lIiBzdHJva2U9InVybCgjZ29sZEdyYWQpIiBzdHJva2Utd2lkdGg9IjYiLz4KICAgIDwhLS0gT3V0ZXIgYWNjZW50IGRvdHMgcmVwcmVzZW50aW5nIGZlZWQgc2NpZW5jZSAvIHZpdGFtaW5zIC0tPgogICAgPGNpcmNsZSBjeD0iMjU2IiBjeT0iOTYiIHI9IjYiIGZpbGw9IiMxMGI5ODEiLz4KICAgIDxjaXJjbGUgY3g9IjI1NiIgY3k9IjQxNiIgcj0iNiIgZmlsbD0iIzEwYjk4MSIvPgogICAgPGNpcmNsZSBjeD0iOTYiIGN5PSIyNTYiIHI9IjYiIGZpbGw9IiMxMGI5ODEiLz4KICAgIDxjaXJjbGUgY3g9IjQxNiIgY3k9IjI1NiIgcj0iNiIgZmlsbD0iIzEwYjk4MSIvPgogICAgCiAgICA8IS0tIENlbnRyYWwgTW9kZXJuIE1lZGljYWwgQ3Jvc3MgLS0+CiAgICA8cGF0aCBkPSJNIDIyNiwxMzYgTCAyODYsMTM2IEEgMjAsMjAgMCAwIDEgMzA2LDE1NiBMIDMwNiwyMDYgTCAzNTYsMjA2IEEgMjAsMjAgMCAwIDEgMzc2LDIyNiBMIDM3NiwyODYgQSAyMCwyMCAwIDAgMSAzNTYsMzA2IEwgMzA2LDMwNiBMIDMwNiwzNTYgQSAyMCwyMCAwIDAgMSAyODYsMzc2IEwgMjI2LDM3NiBBIDIwLDIwIDAgMCAxIDIwNiwzNTYgTCAyMDYsMzA2IEwgMTU2LDMwNiBBIDIwLDIwIDAgMCAxIDEzNiwyODYgTCAxMzYsMjI2IEEgMjAsMjAgMCAwIDEgMTU2LDIwNiBMIDIwNiwyMDYgTCAyMDYsMTU2IEEgMjAsMjAgMCAwIDEgMjI2LDEzNiBaIiBmaWxsPSJ1cmwoI21pbnRHcmFkKSIvPgogICAgCiAgICA8IS0tIFN0eWxpemVkIG5lZ2F0aXZlL2dsb3dpbmcgY3V0b3V0IHJlcHJlc2VudGluZyBhIGxlYWYvbWVkaWNpbmUgZHJvcHMgdG8gcmVwcmVzZW50IFZldGVyaW5hcnkgVml0YW1pbnMvQWRkaXRpdmVzIC0tPgogICAgPHBhdGggZD0iTSAyNTYsMjEwIEMgMjMwLDI1MCAyMzAsMjgwIDI1NiwzMDAgQyAyODIsMjgwIDI4MiwyNTAgMjU2LDIxMCBaIiBmaWxsPSIjZmZmZmZmIiBvcGFjaXR5PSIwLjkiLz4KICAgIAogICAgPCEtLSBFbGVnYW50IGdvbGQgZGV0YWlsOiBWaXRhbWluIHJpbmcgb3JiaXRpbmcgdGhlIGNyb3NzIGNlbnRlciAtLT4KICAgIDxlbGxpcHNlIGN4PSIyNTYiIGN5PSIyNTYiIHJ4PSI2MCIgcnk9IjI0IiBmaWxsPSJub25lIiBzdHJva2U9InVybCgjZ29sZEdyYWQpIiBzdHJva2Utd2lkdGg9IjQiIHRyYW5zZm9ybT0icm90YXRlKC0zMCAyNTYgMjU2KSIvPgogICAgPCEtLSBPcmJpdGluZyBlbGVjdHJvbnMgcmVwcmVzZW50aW5nIGFjdGl2ZSBiaW8tYWRkaXRpdmVzIC0tPgogICAgPGNpcmNsZSBjeD0iMjA0IiBjeT0iMjI2IiByPSI4IiBmaWxsPSIjZmRhMDg1Ii8+CiAgICA8Y2lyY2xlIGN4PSIzMDgiIGN5PSIyODYiIHI9IjgiIGZpbGw9IiNmNmQzNjUiLz4KICA8L2c+Cjwvc3ZnPg==">
+
+  <!-- مكتبة الأيقونات FontAwesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- ملف التنسيق المخصص -->
+  <link rel="stylesheet" href="app.css">
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- القائمة الجانبية (Sidebar) / وتتحول لشريط سفلي متجاوب على الآيفون -->
+    <aside class="sidebar no-print">
+      <div class="logo-area">
+        <div class="logo-icon">
+          <i class="fa-solid fa-prescription-bottle-medical"></i>
+        </div>
+        <div class="logo-text">VetStock Pro</div>
+      </div>
+      
+      <nav class="nav-links">
+        <li class="nav-item">
+          <a class="nav-link active" onclick="switchSection('dashboard')">
+            <i class="fa-solid fa-chart-line"></i>
+            <span data-translate="nav_dashboard">لوحة التحكم</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" onclick="switchSection('invoices')">
+            <i class="fa-solid fa-file-invoice-dollar"></i>
+            <span data-translate="nav_invoices">الفواتير والعمليات</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" onclick="switchSection('inventory')">
+            <i class="fa-solid fa-boxes-stacked"></i>
+            <span data-translate="nav_inventory">إدارة المخزون</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" onclick="switchSection('customers')">
+            <i class="fa-solid fa-users"></i>
+            <span data-translate="nav_customers">العملاء والحسابات</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" onclick="switchSection('ledger')">
+            <i class="fa-solid fa-receipt"></i>
+            <span data-translate="nav_ledger">كشف الحساب</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" onclick="switchSection('reports')">
+            <i class="fa-solid fa-chart-column"></i>
+            <span data-translate="nav_reports">مركز التقارير</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" onclick="switchSection('settings')">
+            <i class="fa-solid fa-gears"></i>
+            <span data-translate="nav_settings">النسخ والإعدادات</span>
+          </a>
+        </li>
+      </nav>
+      
+      <div class="sidebar-footer">
+        <p data-translate="sidebar_footer_app">نظام VetStock الإحترافي v1.0</p>
+        <p data-translate="sidebar_footer_rights">© 2026 جميع الحقوق محفوظة</p>
+      </div>
+    </aside>
+
+    <!-- منطقة المحتوى الرئيسي للتطبيق -->
+    <main class="main-content">
+
+      <!-- ================= شاشة لوحة التحكم ================= -->
+      <section id="dashboard" class="page-section active">
+        <div class="header-bar">
+          <div class="page-title">
+            <h1 data-translate="app_title">لوحة التحكم الرئيسية</h1>
+            <p data-translate="app_subtitle">ملخص فوري لأعمال الاستيراد والمبيعات البيطرية اليوم</p>
+          </div>
+          <div class="header-actions" style="display: flex; gap: 10px; align-items: center;">
+            <button class="btn btn-primary" onclick="switchSection('invoices')">
+              <i class="fa-solid fa-plus"></i> <span data-translate="new_invoice">فاتورة جديدة</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- لوحات الإحصائيات السريعة -->
+        <div class="dashboard-summary">
+          <div class="summary-card">
+            <div class="card-icon"><i class="fa-solid fa-money-bill-trend-up"></i></div>
+            <div class="card-info">
+              <span class="card-title" data-translate="kpi_sales">إجمالي المبيعات</span>
+              <span class="card-value" id="stat-sales">0.00 ر.س</span>
+            </div>
+          </div>
+          <div class="summary-card">
+            <div class="card-icon"><i class="fa-solid fa-truck-loading"></i></div>
+            <div class="card-info">
+              <span class="card-title" data-translate="kpi_purchases">إجمالي المشتريات</span>
+              <span class="card-value" id="stat-purchases">0.00 ر.س</span>
+            </div>
+          </div>
+          <div class="summary-card">
+            <div class="card-icon"><i class="fa-solid fa-box-open"></i></div>
+            <div class="card-info">
+              <span class="card-title" data-translate="kpi_inventory_value">قيمة المخزون الحالي</span>
+              <span class="card-value" id="stat-inventory-value">0.00 ر.س</span>
+            </div>
+          </div>
+          <div class="summary-card">
+            <div class="card-icon"><i class="fa-solid fa-hand-holding-dollar"></i></div>
+            <div class="card-info">
+              <span class="card-title" data-translate="kpi_receivables">مستحقات العملاء القائمة</span>
+              <span class="card-value" id="stat-receivables">0.00 ر.س</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- لوحات التنبيهات وتحليل المناطق -->
+        <div class="alerts-container" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-bottom: 40px;">
+          <!-- تنبيهات المخزون وحد إعادة الطلب -->
+          <div class="alert-panel">
+            <div class="panel-header">
+              <h2><i class="fa-solid fa-triangle-exclamation" style="color: var(--warning);"></i> <span data-translate="alert_stock_title">تنبيهات كميات المخزون</span></h2>
+              <span class="panel-badge" id="badge-stock-alerts">0 أصناف</span>
+            </div>
+            <ul class="alert-list" id="list-stock-alerts">
+              <!-- تُدرج برمجياً -->
+            </ul>
+          </div>
+
+          <!-- تنبيهات تاريخ الصلاحية للأصناف -->
+          <div class="alert-panel">
+            <div class="panel-header">
+              <h2><i class="fa-solid fa-hourglass-half" style="color: var(--danger);"></i> <span data-translate="alert_expiry_title">تنبيهات انتهاء الصلاحية</span></h2>
+              <span class="panel-badge" style="background: var(--danger);" id="badge-expiry-alerts">0 أصناف</span>
+            </div>
+            <ul class="alert-list" id="list-expiry-alerts">
+              <!-- تُدرج برمجياً -->
+            </ul>
+          </div>
+
+          <!-- لوحة تحليل مبيعات المناطق الجغرافية -->
+          <div class="alert-panel" style="border-right: 4px solid var(--secondary);">
+            <div class="panel-header">
+              <h2><i class="fa-solid fa-chart-pie" style="color: var(--secondary);"></i> <span data-translate="alert_region_title">تحليل مبيعات المناطق</span></h2>
+            </div>
+            <div style="display: flex; align-items: center; justify-content: center; gap: 20px; flex-wrap: wrap; margin-top: 15px;">
+              <!-- الرسم البياني الدائري التفاعلي SVG -->
+              <div id="region-chart-wrapper" style="position: relative; width: 140px; height: 140px; display: flex; align-items: center; justify-content: center;">
+                <!-- سيتم حقن كود الـ SVG التفاعلي برمجياً -->
+              </div>
+              
+              <!-- تفاصيل ونسب المبيعات للمناطق الأربعة -->
+              <div id="region-sales-list" style="flex-grow: 1; min-width: 180px; display: flex; flex-direction: column; gap: 10px;">
+                <!-- سيتم شحن تفاصيل المناطق برمجياً -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- لوحات أعلى 5 أصناف وأعلى 5 عملاء -->
+        <div class="alerts-container" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-bottom: 40px; margin-top: -16px;">
+          <!-- لوحة أعلى 5 أصناف مبيعاً -->
+          <div class="alert-panel" style="border-right: 4px solid var(--primary);">
+            <div class="panel-header">
+              <h2><i class="fa-solid fa-ranking-star" style="color: var(--primary);"></i> أعلى 5 أصناف بيطرية مبيعاً</h2>
+              <span class="panel-badge" style="background: var(--primary);">الكمية والقيمة</span>
+            </div>
+            <ul class="alert-list" id="list-top-products" style="padding-top: 10px;">
+              <!-- تُدرج برمجياً -->
+            </ul>
+          </div>
+
+          <!-- لوحة أعلى 5 عملاء سحباً -->
+          <div class="alert-panel" style="border-right: 4px solid var(--accent);">
+            <div class="panel-header">
+              <h2><i class="fa-solid fa-users" style="color: var(--accent);"></i> أعلى 5 عملاء سحباً (بدون VAT)</h2>
+              <span class="panel-badge" style="background: var(--accent);">القيمة المالية</span>
+            </div>
+            <ul class="alert-list" id="list-top-customers" style="padding-top: 10px;">
+              <!-- تُدرج برمجياً -->
+            </ul>
+          </div>
+        </div>
+
+        <!-- قائمة العمليات الأخيرة -->
+        <div class="data-table-container">
+          <div class="panel-header" style="border-bottom: none; margin-bottom: 0; padding: 20px;">
+            <h2><i class="fa-solid fa-list-check" style="color: var(--secondary);"></i> <span data-translate="alert_recent_tx_title">آخر 5 عمليات مسجلة بالبرنامج</span></h2>
+          </div>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th data-translate="tbl_id">رقم العملية</th>
+                <th data-translate="tbl_type">نوع العملية</th>
+                <th data-translate="tbl_party">العميل / التفاصيل</th>
+                <th data-translate="tbl_date">التاريخ</th>
+                <th data-translate="tbl_amount">قيمة الفاتورة</th>
+              </tr>
+            </thead>
+            <tbody id="list-recent-transactions">
+              <!-- تُدرج برمجياً -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ================= شاشة الفواتير والعمليات ================= -->
+      <section id="invoices" class="page-section">
+        <div class="header-bar">
+          <div class="page-title">
+            <h1 data-translate="inv_mgmt_title">إدارة الفواتير والمعاملات المالية</h1>
+            <p data-translate="inv_mgmt_subtitle">تسجيل وتعديل فواتير المبيعات، المشتريات، المرتجع وسندات القبض</p>
+          </div>
+        </div>
+
+        <!-- تبديل الصفحات الفرعية للفواتير -->
+        <div style="display: flex; gap: 10px; margin-bottom: 25px;" class="no-print">
+          <button class="btn btn-primary" id="btn-tab-new-invoice" onclick="switchInvoiceTab('new')">
+            <i class="fa-solid fa-file-invoice"></i> <span data-translate="inv_tab_new">تحرير معاملة جديدة</span>
+          </button>
+          <button class="btn btn-secondary" id="btn-tab-log-invoice" onclick="switchInvoiceTab('log')">
+            <i class="fa-solid fa-list-check"></i> <span data-translate="inv_tab_log">سجل جميع العمليات والفواتير</span>
+          </button>
+        </div>
+
+        <!-- 1. شاشة منشئ الفواتير والمعاملات -->
+        <div id="invoice-creator-view" class="invoice-tab-content">
+          <input type="hidden" id="editing-tx-id" value="">
+          
+          <div class="invoice-creator-container">
+            <!-- تفاصيل الفاتورة والعناصر -->
+            <div class="invoice-items-card">
+              <div class="form-row" style="margin-bottom: 20px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));">
+                <div class="form-group">
+                  <label for="inv-type" data-translate="inv_type_label">نوع الفاتورة / المعاملة</label>
+                  <select id="inv-type" class="form-control" onchange="handleInvoiceTypeChange()">
+                    <option value="sales" data-translate="inv_opt_sales">فاتورة مبيعات (S)</option>
+                    <option value="sales_vaxigen" data-translate="inv_opt_vaxigen">فاتورة مبيعات شركة V</option>
+                    <option value="purchase" data-translate="inv_opt_purchase">فاتورة مشتريات (B)</option>
+                    <option value="return" data-translate="inv_opt_return">فاتورة مرتجع مبيعات (R)</option>
+                    <option value="payment" data-translate="inv_opt_payment">سند قبض مالي</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label id="inv-party-label" for="inv-party" data-translate="inv_party_label">العميل</label>
+                  <select id="inv-party" class="form-control" onchange="handleInvoicePartyChange()">
+                    <!-- يُشحن برمجياً -->
+                  </select>
+                </div>
+                <div class="form-group" id="inv-region-group">
+                  <label for="inv-region" data-translate="inv_region_label">المنطقة الجغرافية للعميل</label>
+                  <input type="text" id="inv-region" class="form-control" readonly style="background: rgba(256,256,256,0.03); color: var(--secondary); font-weight: 700;" placeholder="المنطقة تلقائياً" data-translate-placeholder="inv_region_placeholder">
+                </div>
+              </div>
+
+              <div class="form-row" style="margin-bottom: 20px;" id="inv-date-row">
+                <div class="form-group">
+                  <label for="inv-date" data-translate="inv_date_label">تاريخ العملية</label>
+                  <input type="date" id="inv-date" class="form-control">
+                </div>
+                <div class="form-group" id="inv-number-display-group">
+                  <label for="inv-number-display" id="inv-number-label" data-translate="inv_number_label">رقم الفاتورة القادم</label>
+                  <input type="text" id="inv-number-display" class="form-control" readonly style="background: rgba(256,256,256,0.03);">
+                </div>
+              </div>
+
+              <!-- جدول إضافة العناصر للفواتير (يُخفى في حال سند القبض) -->
+              <div id="invoice-items-wrapper">
+                <h3 style="margin-top: 20px; font-size: 16px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;" data-translate="inv_items_title">عناصر الفاتورة</h3>
+                <table class="invoice-items-table">
+                  <thead>
+                    <tr>
+                      <th style="width: 30%;" data-translate="prod_name">الصنف البيطري</th>
+                      <th style="width: 15%;" data-translate="prod_price_sell">سعر الوحدة</th>
+                      <th style="width: 12%;" data-translate="inv_qty">الكمية</th>
+                      <th style="width: 18%;" data-translate="prod_expiry">تاريخ الصلاحية</th>
+                      <th style="width: 15%;" data-translate="inv_item_total">إجمالي الصنف</th>
+                      <th style="width: 10%; text-align: center;" data-translate="prod_action">إجراء</th>
+                    </tr>
+                  </thead>
+                  <tbody id="invoice-items-body">
+                    <!-- تُدرج الأسطر برمجياً -->
+                  </tbody>
+                </table>
+                <button class="btn btn-secondary btn-sm" onclick="addInvoiceItemRow()">
+                  <i class="fa-solid fa-plus"></i> <span data-translate="inv_add_item">إضافة صنف للفاتورة</span>
+                </button>
+              </div>
+
+              <!-- تفاصيل سند القبض (يُعرض فقط عند اختيار سند قبض مالي) -->
+              <div id="payment-details-wrapper" style="display: none; padding: 20px 0;">
+                <h3 style="font-size: 16px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; margin-bottom: 15px;" data-translate="pay_details_title">تفاصيل سند القبض المالي</h3>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="pay-amount" data-translate="pay_amount_label">المبلغ المستلم (ر.س)</label>
+                    <input type="number" step="0.01" id="pay-amount" class="form-control" placeholder="ادخل المبلغ المستلم لتنزيله من المديونية" data-translate-placeholder="pay_amount_placeholder">
+                  </div>
+                  <div class="form-group">
+                    <label for="pay-notes" data-translate="pay_notes_label">ملاحظات / رقم السند</label>
+                    <input type="text" id="pay-notes" class="form-control" placeholder="مثل: نقداً، شيك رقم ..." data-translate-placeholder="pay_notes_placeholder">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ملخص الفاتورة والحفظ (يُخفف في حال سند القبض) -->
+            <div class="invoice-summary-card">
+              <h3 style="font-size: 16px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; margin-bottom: 15px;" data-translate="summary_title">ملخص الحساب</h3>
+              
+              <div id="invoice-pricing-summary">
+                <div class="summary-row">
+                  <span data-translate="inv_subtotal_label">المجموع الفرعي:</span>
+                  <span id="inv-subtotal">0.00 ر.س</span>
+                </div>
+                <div class="form-group" style="margin: 15px 0 10px 0;">
+                  <label for="inv-discount" data-translate="inv_discount_label">خصم إضافي (ر.س)</label>
+                  <input type="number" id="inv-discount" class="form-control" value="0" min="0" oninput="calculateInvoiceTotals()">
+                </div>
+                
+                <div class="vat-toggle-container">
+                  <span style="font-size: 14px;" data-translate="inv_vat_toggle_label">ضريبة القيمة المضافة (15%):</span>
+                  <label class="switch">
+                    <input type="checkbox" id="inv-vat-toggle" checked onchange="calculateInvoiceTotals()">
+                    <span class="slider"></span>
+                  </label>
+                </div>
+                <div class="summary-row" style="border-top: 1px solid rgba(256, 256, 256, 0.05); padding-top: 12px;">
+                  <span data-translate="inv_vat_amount_label">قيمة الضريبة:</span>
+                  <span id="inv-vat-amount">0.00 ر.س</span>
+                </div>
+              </div>
+
+              <div class="summary-row total-row" style="margin-top: 15px;">
+                <span data-translate="inv_grand_label">الإجمالي النهائي:</span>
+                <span id="inv-total">0.00 ر.س</span>
+              </div>
+
+              <button class="btn btn-primary" id="btn-save-invoice" style="width: 100%; margin-top: 20px; padding: 14px;" onclick="saveInvoiceTransaction()">
+                <i class="fa-solid fa-circle-check"></i> <span data-translate="inv_save">حفظ وترحيل المعاملة</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. شاشة سجل الفواتير والمعاملات التاريخي -->
+        <div id="invoice-log-view" class="invoice-tab-content" style="display: none;">
+          <div class="data-table-container">
+            <div class="table-controls">
+              <div class="search-input-wrapper">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="search-log" class="search-input" placeholder="ابحث باسم العميل أو رقم الفاتورة..." data-translate-placeholder="search_invoice_placeholder" oninput="renderInvoiceLogTable()">
+              </div>
+              <div class="filter-group">
+                <select id="filter-log-type" class="filter-select" onchange="renderInvoiceLogTable()">
+                  <option value="all" data-translate="log_filter_all">كل المعاملات</option>
+                  <option value="sales" data-translate="log_filter_sales">المبيعات (S) فقط</option>
+                  <option value="sales_vaxigen" data-translate="log_filter_sales_v">مبيعات شركة V فقط</option>
+                  <option value="purchase" data-translate="log_filter_purchase">المشتريات فقط</option>
+                  <option value="return" data-translate="log_filter_return">المرتجع فقط</option>
+                  <option value="payment" data-translate="log_filter_payment">سندات القبض</option>
+                </select>
+              </div>
+            </div>
+
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th data-translate="tbl_id">رقم الفاتورة/العملية</th>
+                  <th data-translate="tbl_type">نوع العملية</th>
+                  <th data-translate="tbl_party">العميل / المورد</th>
+                  <th data-translate="tbl_date">التاريخ</th>
+                  <th data-translate="tbl_amount">إجمالي القيمة</th>
+                  <th data-translate="tbl_details">التفاصيل والملاحظات</th>
+                  <th class="no-print" style="text-align: center;" data-translate="prod_action">إجراءات</th>
+                </tr>
+              </thead>
+              <tbody id="invoice-log-tbody">
+                <!-- تُشحن برمجياً بالكامل -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= شاشة إدارة المخزون ================= -->
+      <section id="inventory" class="page-section">
+        <div class="header-bar">
+          <div class="page-title">
+            <h1 data-translate="inv_title">إدارة المخازن والأصناف</h1>
+            <p data-translate="inv_subtitle">تتبع مخزون المضادات الحيوية، الفيتامينات، وإضافات الأعلاف</p>
+          </div>
+          <div class="header-actions">
+            <button class="btn btn-primary" onclick="openProductModal()">
+              <i class="fa-solid fa-plus"></i> <span data-translate="new_product">صنف جديد</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- أدوات التحكم والبحث والتصفية -->
+        <div class="data-table-container">
+          <div class="table-controls">
+            <div class="search-input-wrapper">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input type="text" id="search-product" class="search-input" placeholder="ابحث باسم الصنف أو الكود..." data-translate-placeholder="search_product_placeholder" oninput="renderProductTable()">
+            </div>
+            <div class="filter-group">
+              <select id="filter-category" class="filter-select" onchange="renderProductTable()">
+                <option value="all" data-translate="filter_cat_all">كل الفئات البيطرية</option>
+                <option value="دواجن" data-translate="filter_cat_poultry">دواجن</option>
+                <option value="ماشية" data-translate="filter_cat_cattle">ماشية</option>
+              </select>
+              <select id="filter-stock-status" class="filter-select" onchange="renderProductTable()">
+                <option value="all" data-translate="filter_status_all">كل الحالات</option>
+                <option value="normal" data-translate="filter_status_normal">متوفر وكافي</option>
+                <option value="low" data-translate="filter_status_low">قرب النفاد (تحت حد الطلب)</option>
+                <option value="expired" data-translate="filter_status_expired">منتهى الصلاحية</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- جدول الأصناف -->
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th data-translate="prod_code">كود الصنف</th>
+                <th data-translate="prod_name">اسم الصنف البيطري</th>
+                <th data-translate="prod_category">الفئة</th>
+                <th data-translate="prod_unit">الوحدة</th>
+                <th data-translate="prod_initial_stock">الرصيد الافتتاحي</th>
+                <th data-translate="prod_stock_actual">المخزون الحالي</th>
+                <th data-translate="prod_reorder">حد الطلب</th>
+                <th data-translate="prod_expiry">تاريخ الصلاحية</th>
+                <th data-translate="prod_price_sell">سعر البيع</th>
+                <th class="no-print" data-translate="prod_action">إجراءات</th>
+              </tr>
+            </thead>
+            <tbody id="product-table-body">
+              <!-- تُشحن برمجياً -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ================= شاشة إدارة العملاء والحسابات ================= -->
+      <section id="customers" class="page-section">
+        <div class="header-bar">
+          <div class="page-title">
+            <h1 data-translate="cust_title">إدارة العملاء والحسابات المالية</h1>
+            <p data-translate="cust_subtitle">توزيع العملاء على المناطق، تتبع الأرصدة الافتتاحية والمديونيات</p>
+          </div>
+          <div class="header-actions">
+            <button class="btn btn-primary" onclick="openCustomerModal()">
+              <i class="fa-solid fa-user-plus"></i> <span data-translate="new_customer">عميل جديد</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- التحكم والتصفية والبحث للعملاء -->
+        <div class="data-table-container">
+          <div class="table-controls">
+            <div class="search-input-wrapper">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input type="text" id="search-customer" class="search-input" placeholder="ابحث باسم العميل أو المزرعة..." data-translate-placeholder="search_customer_placeholder" oninput="renderCustomerTable()">
+            </div>
+            <div class="filter-group">
+              <select id="filter-region" class="filter-select" onchange="renderCustomerTable()">
+                <option value="all" data-translate="filter_region_all">كل المناطق</option>
+                <option value="الغربية" data-translate="filter_region_west">المنطقة الغربية</option>
+                <option value="الوسطى" data-translate="filter_region_center">المنطقة الوسطى</option>
+                <option value="الجنوبية" data-translate="filter_region_south">المنطقة الجنوبية</option>
+                <option value="الشرقية" data-translate="filter_region_east">المنطقة الشرقية</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- جدول العملاء -->
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th data-translate="cust_name">اسم العميل / المزرعة</th>
+                <th data-translate="cust_region">المنطقة</th>
+                <th data-translate="cust_phone">رقم الجوال</th>
+                <th data-translate="cust_credit_days">مدة الائتمان</th>
+                <th data-translate="cust_initial_balance">الرصيد الافتتاحي</th>
+                <th data-translate="cust_balance_actual">المديونية الحالية</th>
+                <th class="no-print" data-translate="cust_actions">إجراءات</th>
+              </tr>
+            </thead>
+            <tbody id="customer-table-body">
+              <!-- تُشحن برمجياً -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ================= شاشة كشف حساب تفصيلي ================= -->
+      <section id="ledger" class="page-section">
+        <div class="header-bar">
+          <div class="page-title">
+            <h1 data-translate="led_title">كشف حساب العميل التراكمي</h1>
+            <p data-translate="led_subtitle">عرض تفصيلي للحركات المالية والفواتير وسندات القبض لفترة محددة</p>
+          </div>
+        </div>
+
+        <!-- لوحة الاختيار والتصفية لكشف الحساب -->
+        <div class="ledger-selection-card no-print">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="ledger-customer-select" data-translate="led_select_customer">اختر العميل / المزرعة البيطرية</label>
+              <select id="ledger-customer-select" class="form-control" onchange="generateCustomerLedger()">
+                <!-- تُشحن برمجياً -->
+              </select>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="ledger-date-start" data-translate="led_from_date">من تاريخ</label>
+                <input type="date" id="ledger-date-start" class="form-control" onchange="generateCustomerLedger()">
+              </div>
+              <div class="form-group">
+                <label for="ledger-date-end" data-translate="led_to_date">إلى تاريخ</label>
+                <input type="date" id="ledger-date-end" class="form-control" onchange="generateCustomerLedger()">
+              </div>
+            </div>
+          </div>
+          <div style="display: flex; justify-content: flex-end; margin-top: 15px;">
+            <button class="btn btn-accent" onclick="window.print()">
+              <i class="fa-solid fa-print"></i> <span data-translate="led_print">طباعة كشف الحساب / تصدير PDF</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- اللوحة المصممة للطباعة وكشف الحساب التفصيلي -->
+        <div class="ledger-view-panel" id="ledger-print-area">
+          <div class="ledger-header">
+            <div class="company-brand-title" data-translate="led_company_brand">شركة استيراد وتجارة المنتجات البيطرية</div>
+            <div class="ledger-report-title" data-translate="led_report_title">كشف حساب تفصيلي وتراكمي للعملاء</div>
+            <div class="ledger-meta-info">
+              <div><strong data-translate="cust_name_label">اسم العميل:</strong> <span id="lbl-ledger-name">--</span></div>
+              <div><strong data-translate="cust_region_label">المنطقة الجغرافية:</strong> <span id="lbl-ledger-region">--</span></div>
+              <div><strong data-translate="led_period_label">الفترة الزمنية:</strong> <span id="lbl-ledger-period">--</span></div>
+            </div>
+          </div>
+
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th data-translate="tbl_date">التاريخ</th>
+                <th data-translate="tbl_details">البيان / تفاصيل العملية</th>
+                <th data-translate="tbl_id">رقم العملية</th>
+                <th data-translate="led_debit_hdr">مدين (عليه ر.س)</th>
+                <th data-translate="led_credit_hdr">دائن (له ر.س)</th>
+                <th data-translate="led_balance_hdr">الرصيد التراكمي (ر.س)</th>
+              </tr>
+            </thead>
+            <tbody id="ledger-table-body">
+              <!-- يُشحن برمجياً بالكامل -->
+            </tbody>
+          </table>
+
+          <div style="margin-top: 30px; display: flex; justify-content: space-between; font-size: 14px; border-top: 1px solid var(--border-color); padding-top: 20px;">
+            <div><strong data-translate="led_total_debit_label">إجمالي العمليات المدين:</strong> <span id="lbl-total-debit">0.00 ر.س</span></div>
+            <div><strong data-translate="led_total_credit_label">إجمالي العمليات الدائن:</strong> <span id="lbl-total-credit">0.00 ر.س</span></div>
+            <div><strong style="color: var(--secondary); font-size: 16px;" data-translate="led_final_balance_label">الرصيد النهائي المستحق:</strong> <span id="lbl-final-balance" style="font-weight: 800; font-size: 16px;">0.00 ر.س</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= شاشة مركز التقارير المتقدمة ================= -->
+      <section id="reports" class="page-section">
+        <div class="header-bar no-print">
+          <div class="page-title">
+            <h1 data-translate="rep_title">مركز التقارير المتقدمة</h1>
+            <p data-translate="rep_subtitle">توليد تقارير مسحوبات العملاء، وحركة الأصناف البيطرية، ومبيعات المناطق الجغرافية</p>
+          </div>
+        </div>
+
+        <!-- أدوات تصفية وتوليد التقارير -->
+        <div class="ledger-selection-card no-print" style="margin-bottom: 24px;">
+          <div class="form-row" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+            <div class="form-group">
+              <label for="report-type" data-translate="rep_type_label">نوع التقرير المالي</label>
+              <select id="report-type" class="form-control" onchange="handleReportTypeChange()">
+                <option value="product_summary" data-translate="rep_opt_prod_summary">تقرير حركة صنف بيطري تفصيلي</option>
+                <option value="customer_product_purchases" data-translate="rep_opt_cust_prod_purchases">مسحوبات عميل معين من صنف معين</option>
+                <option value="customer_all_purchases" data-translate="rep_opt_cust_all_purchases">مسحوبات عميل من كافة الأصناف</option>
+                <option value="customer_due_payments" data-translate="rep_opt_cust_due_payments">الأموال المستحقة للسداد (الائتمان الشهري)</option>
+              </select>
+            </div>
+            
+            <div class="form-group" id="report-customer-group" style="display: none;">
+              <label for="report-customer-select" data-translate="led_select_customer">اختر العميل / المزرعة</label>
+              <select id="report-customer-select" class="form-control">
+                <!-- يُشحن برمجياً -->
+              </select>
+            </div>
+            
+            <div class="form-group" id="report-product-group">
+              <label for="report-product-select" data-translate="rep_select_product">اختر الصنف البيطري</label>
+              <select id="report-product-select" class="form-control">
+                <!-- يُشحن برمجياً -->
+              </select>
+            </div>
+            
+            <div class="form-group" id="report-date-start-group">
+              <label for="report-date-start" data-translate="led_from_date">من تاريخ</label>
+              <input type="date" id="report-date-start" class="form-control">
+            </div>
+            
+            <div class="form-group">
+              <label for="report-date-end" data-translate="led_to_date">إلى تاريخ</label>
+              <input type="date" id="report-date-end" class="form-control">
+            </div>
+          </div>
+          
+          <div style="margin-top: 20px; display: flex; gap: 10px;">
+            <button class="btn btn-primary" onclick="generateFinancialReport()">
+              <i class="fa-solid fa-chart-pie"></i> <span data-translate="rep_generate_btn">توليد التقرير المالي</span>
+            </button>
+            <button class="btn btn-secondary" onclick="window.print()">
+              <i class="fa-solid fa-print"></i> <span data-translate="rep_print_btn">طباعة التقرير / تصدير PDF</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- مساحة عرض نتائج التقرير المستندات -->
+        <div id="report-results-wrapper" class="ledger-view-panel" style="display: none; margin-top: 24px;">
+          <!-- الهيدر للمطبوعات الفخمة -->
+          <div class="ledger-header">
+            <div class="company-logo-container" style="display: flex; align-items: center; gap: 15px;">
+              <div style="background: linear-gradient(135deg, var(--success), var(--secondary)); width: 45px; height: 45px; border-radius: 12px; display: flex; justify-content: center; align-items: center; box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3);">
+                <i class="fa-solid fa-prescription-bottle-medical" style="color: #fff; font-size: 22px;"></i>
+              </div>
+              <div>
+                <div class="company-name" id="lbl-report-company" style="font-weight: 800; font-size: 18px; color: #fff;">VetStock Pro</div>
+                <div class="company-brand-title" style="font-size: 13px; color: var(--text-muted);" data-translate="rep_dept_label">قسم الاستيراد وتجارة المنتجات البيطرية</div>
+              </div>
+            </div>
+            <div style="text-align: left;">
+              <h2 style="margin: 0 0 5px 0; color: var(--secondary); font-size: 20px; font-weight: 800;" id="lbl-report-title" data-translate="rep_title_prod_summary">تقرير حركة صنف تفصيلي</h2>
+              <div class="ledger-meta-info" style="justify-content: flex-end; gap: 15px; margin-top: 5px;">
+                <span id="lbl-report-period">--</span>
+                <span id="lbl-report-gen-date">--</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- تفاصيل الفلاتر المحددة -->
+          <div class="ledger-meta-info" style="margin-bottom: 24px; display: flex; justify-content: space-between; border-bottom: 1px solid var(--border-color); padding-bottom: 15px;">
+            <div class="info-item">
+              <div class="info-label" id="lbl-report-target-label-1" style="font-size: 12px; color: var(--text-muted);" data-translate="rep_label_target_prod">الصنف المستهدف</div>
+              <div class="info-value" id="lbl-report-target-val-1" style="font-weight: 700; color: #fff; font-size: 15px;">--</div>
+            </div>
+            <div class="info-item" id="report-info-item-2" style="display: none;">
+              <div class="info-label" id="lbl-report-target-label-2" style="font-size: 12px; color: var(--text-muted);" data-translate="rep_label_target_cust">العميل المستهدف</div>
+              <div class="info-value" id="lbl-report-target-val-2" style="font-weight: 700; color: #fff; font-size: 15px;">--</div>
+            </div>
+            <div class="info-item">
+              <div class="info-label" style="font-size: 12px; color: var(--text-muted);" data-translate="rep_db_status_label">حالة قاعدة البيانات</div>
+              <div class="info-value" style="color: var(--success); font-weight: 700; font-size: 15px;"><i class="fa-solid fa-circle-check"></i> <span data-translate="rep_db_status_val">متصل ومحدثة</span></div>
+            </div>
+          </div>
+
+          <!-- اللوحة الإحصائية للتقرير (KPI Breakdown) -->
+          <div class="alerts-container" id="report-kpi-container" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-bottom: 24px;">
+            <!-- تُشحن برمجياً -->
+          </div>
+
+          <!-- جدول بيانات التقرير -->
+          <div class="data-table-container">
+            <table class="data-table" style="width: 100%;">
+              <thead id="report-table-head">
+                <!-- تُشحن برمجياً -->
+              </thead>
+              <tbody id="report-table-tbody">
+                <!-- يُشحن برمجياً -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- المذيل وتواقيع المطبوعات -->
+          <div style="margin-top: 40px; display: flex; justify-content: space-between; font-size: 13px; border-top: 1px solid var(--border-color); padding-top: 20px;">
+            <div><strong><span data-translate="rep_accountant_signature">المسؤول المحاسبي:</span></strong> ________________________</div>
+            <div style="text-align: left;"><strong><span data-translate="rep_seal_signature">التوقيع والختم المعتمد:</span></strong> ________________________</div>
+          </div>
+        </div>
+        
+        <!-- رسالة إرشادية عند عدم وجود تقرير -->
+        <div id="report-empty-message" class="alert-panel" style="border-right: 4px solid var(--secondary); text-align: center; padding: 40px; margin-top: 20px;">
+          <i class="fa-solid fa-chart-pie" style="font-size: 48px; color: var(--secondary); margin-bottom: 15px; display: block;"></i>
+          <h3 data-translate="rep_empty_title">بوابة التقارير المالية والإدارية النشطة</h3>
+          <p style="color: var(--text-muted); font-size: 14px; max-width: 500px; margin: 10px auto 0 auto; line-height: 1.6;" data-translate="rep_empty_desc">
+            يرجى تحديد نوع التقرير المطلوب، وفلترة الصنف والعميل، وتعيين الفترة الزمنية المطلوبة ثم النقر على "توليد التقرير المالي" لعرض البيانات بالتفصيل.
+          </p>
+        </div>
+      </section>
+
+      <!-- ================= شاشة النسخ الاحتياطي والإعدادات ================= -->
+      <!-- ================= شاشة النسخ الاحتياطي والإعدادات ================= -->
+      <section id="settings" class="page-section">
+        <div class="header-bar">
+          <div class="page-title">
+            <h1 data-translate="set_title">إعدادات النظام والنسخ الاحتياطي</h1>
+            <p data-translate="set_subtitle">إدارة قواعد البيانات المحلية، الاستيراد، التصدير وإعادة الضبط</p>
+          </div>
+        </div>
+
+        <div class="alerts-container" style="grid-template-columns: 1fr 1fr;">
+          <!-- لوحة النسخ والتصدير -->
+          <div class="alert-panel" style="border-right: 4px solid var(--success);">
+            <div class="panel-header">
+              <h2><i class="fa-solid fa-cloud-arrow-up" style="color: var(--success);"></i> <span data-translate="set_export_title">تصدير وحفظ نسخة احتياطية</span></h2>
+            </div>
+            <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 20px; line-height: 1.6;" data-translate="set_export_desc">
+              يمكنك تصدير كافة العمليات، فواتير المبيعات، المشتريات، المرتجعات، الأرصدة الافتتاحية المعدلة وتفاصيل العملاء في ملف واحد آمن للكمبيوتر. يوصى بعمل نسخة احتياطية دورياً.
+            </p>
+            <button class="btn btn-primary" onclick="exportDatabaseToFile()">
+              <i class="fa-solid fa-download"></i> <span data-translate="set_export_btn">تصدير قاعدة البيانات (JSON)</span>
+            </button>
+          </div>
+
+          <!-- لوحة الاستيراد وقراءة الملفات -->
+          <div class="alert-panel" style="border-right: 4px solid var(--secondary);">
+            <div class="panel-header">
+              <h2><i class="fa-solid fa-cloud-arrow-down" style="color: var(--secondary);"></i> <span data-translate="set_import_title">استيراد واستعادة نسخة احتياطية</span></h2>
+            </div>
+            <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 20px; line-height: 1.6;" data-translate="set_import_desc">
+              قم برفع نسخة احتياطية بصيغة (JSON) تم تصديرها مسبقاً لاستعادة كافة البيانات والأرصدة والعمليات. تنبيه: هذا الإجراء سيستبدل البيانات الحالية بالكامل.
+            </p>
+            <div style="display: flex; gap: 10px; align-items: center;">
+              <input type="file" id="import-db-file" accept=".json" style="display: none;" onchange="importDatabaseFromFile(event)">
+              <button class="btn btn-accent" onclick="document.getElementById('import-db-file').click()">
+                <i class="fa-solid fa-upload"></i> <span data-translate="set_import_btn">اختر ملف النسخة واسترجعها</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- منطقة التكامل مع برنامج إكسل (Excel Integration) -->
+        <div class="alerts-container" style="grid-template-columns: 1fr 1fr; margin-top: 24px;">
+          <!-- لوحة التصدير لإكسل -->
+          <div class="alert-panel" style="border-right: 4px solid var(--primary);">
+            <div class="panel-header">
+              <h2><i class="fa-solid fa-file-excel" style="color: var(--primary);"></i> <span data-translate="set_excel_export_title">تصدير البيانات إلى برنامج إكسل</span></h2>
+            </div>
+            <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 20px; line-height: 1.6;" data-translate="set_excel_export_desc">
+              يمكنك تصدير قاعدة بيانات الأصناف أو العملاء أو سجل المبيعات والعمليات بالكامل إلى ملفات إكسل (CSV متوافق ومرمز باللغة العربية) للتحليل الإحصائي أو التقارير الخارجية.
+            </p>
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+              <button class="btn btn-secondary" onclick="exportProductsToCSV()" style="justify-content: flex-start;">
+                <i class="fa-solid fa-file-csv" style="color: var(--success);"></i> <span data-translate="set_excel_export_prod">تصدير الأصناف البيطرية إلى إكسل</span>
+              </button>
+              <button class="btn btn-secondary" onclick="exportCustomersToCSV()" style="justify-content: flex-start;">
+                <i class="fa-solid fa-file-csv" style="color: var(--secondary);"></i> <span data-translate="set_excel_export_cust">تصدير العملاء والمزارع إلى إكسل</span>
+              </button>
+              <button class="btn btn-secondary" onclick="exportTransactionsToCSV()" style="justify-content: flex-start;">
+                <i class="fa-solid fa-file-csv" style="color: var(--accent);"></i> <span data-translate="set_excel_export_tx">تصدير سجل العمليات المالي إلى إكسل</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- لوحة الاستيراد من إكسل -->
+          <div class="alert-panel" style="border-right: 4px solid var(--accent);">
+            <div class="panel-header">
+              <h2><i class="fa-solid fa-file-import" style="color: var(--accent);"></i> <span data-translate="set_excel_import_title">استيراد البيانات من ملفات إكسل</span></h2>
+            </div>
+            <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 20px; line-height: 1.6;" data-translate="set_excel_import_desc">
+              قم بتجهيز قائمة الأصناف البيطرية أو العملاء في برنامج إكسل، ثم احفظها بصيغة (CSV UTF-8) وارفعها هنا لتحديث قاعدة بيانات البرنامج أو دمج أصناف وعملاء جدد دفعة واحدة.
+            </p>
+            <div style="display: flex; flex-direction: column; gap: 15px;">
+              <div class="form-group" style="margin-bottom: 0;">
+                <label for="excel-import-type" style="font-size: 12px; margin-bottom: 6px;" data-translate="set_excel_import_type">حدد نوع البيانات المرفوعة</label>
+                <select id="excel-import-type" class="form-control" style="padding: 8px 12px;">
+                  <option value="products" data-translate="set_excel_opt_prod">الأصناف البيطرية (قائمة أصناف جديدة أو تحديث)</option>
+                  <option value="customers" data-translate="set_excel_opt_cust">العملاء والمزارع (قائمة عملاء جديدة)</option>
+                </select>
+              </div>
+              <div>
+                <input type="file" id="import-excel-file" accept=".csv" style="display: none;" onchange="importDataFromCSV(event)">
+                <button class="btn btn-accent" onclick="document.getElementById('import-excel-file').click()" style="width: 100%;">
+                  <i class="fa-solid fa-file-arrow-up"></i> <span data-translate="set_excel_import_btn">رفع ملف الـ CSV المنسق والدمج الفوري</span>
+                </button>
+              </div>
+              <div style="font-size: 11px; color: var(--text-muted); line-height: 1.4; background: rgba(0,0,0,0.15); padding: 10px; border-radius: 8px; border: 1px solid var(--border-color);">
+                <i class="fa-solid fa-circle-info" style="color: var(--secondary);"></i> <strong><span data-translate="set_excel_note_title">ملاحظة هامة:</span></strong> <span data-translate="set_excel_note_desc">يجب أن يحتوي ملف إكسل المرفوع على العناوين الصحيحة للأعمدة ليتم قراءتها بنجاح.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- لوحة التحكم في ترقيم الفواتير والعمليات -->
+        <div class="alert-panel" style="border-right: 4px solid var(--accent); margin-top: 24px;">
+          <div class="panel-header">
+            <h2><i class="fa-solid fa-arrow-down-1-9" style="color: var(--accent);"></i> <span data-translate="set_num_title">التحكم وتعديل ترقيم الفواتير والعمليات</span></h2>
+          </div>
+          <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 20px; line-height: 1.6;" data-translate="set_num_desc">
+            في حال قمت بحذف فاتورة أو معاملة بالخطأ وترغب في تعديل أو استرجاع تسلسل الترقيم التلقائي للفاتورة القادمة، يمكنك تعديل القيم أدناه مباشرة وحفظ التغييرات.
+          </p>
+          <div class="form-row" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-bottom: 20px;">
+            <div class="form-group">
+              <label for="setting-next-sales" style="font-size: 13px;" data-translate="set_num_sales">المبيعات العامة القادمة (S)</label>
+              <input type="number" id="setting-next-sales" class="form-control" min="1" placeholder="مثال: 78">
+            </div>
+            <div class="form-group">
+              <label for="setting-next-vaxigen" style="font-size: 13px;" data-translate="set_num_sales_v">مبيعات شركة V القادمة (V)</label>
+              <input type="number" id="setting-next-vaxigen" class="form-control" min="1" placeholder="مثال: 1">
+            </div>
+            <div class="form-group">
+              <label for="setting-next-purchase" style="font-size: 13px;" data-translate="set_num_purchase">المشتريات القادمة (B)</label>
+              <input type="number" id="setting-next-purchase" class="form-control" min="1" placeholder="مثال: 1">
+            </div>
+            <div class="form-group">
+              <label for="setting-next-return" style="font-size: 13px;" data-translate="set_num_return">المرتجع القادم (R)</label>
+              <input type="number" id="setting-next-return" class="form-control" min="1" placeholder="مثال: 1">
+            </div>
+            <div class="form-group">
+              <label for="setting-next-payment" style="font-size: 13px;" data-translate="set_num_payment">سند القبض القادم</label>
+              <input type="number" id="setting-next-payment" class="form-control" min="1" placeholder="مثال: 1">
+            </div>
+          </div>
+          <button class="btn btn-accent" onclick="saveNumberingSettings()">
+            <i class="fa-solid fa-floppy-disk"></i> <span data-translate="set_num_btn">حفظ وتعديل أرقام التسلسل القادمة</span>
+          </button>
+        </div>
+
+        <div class="alert-panel" style="border-right: 4px solid var(--danger); margin-top: 24px;">
+          <div class="panel-header">
+            <h2><i class="fa-solid fa-rotate-left" style="color: var(--danger);"></i> <span data-translate="set_reset_title">إعادة الضبط واستيراد قاعدة البيانات الافتراضية</span></h2>
+          </div>
+          <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 20px; line-height: 1.6;" data-translate="set_reset_desc">
+            في حال رغبتك بمسح كافة المعاملات وفواتير المبيعات الحالية وإرجاع قاعدة بيانات العملاء والأصناف إلى البيانات الافتراضية المستخرجة من Excel (`sales-system-data.json`)، اضغط على زر إعادة الضبط أدناه.
+          </p>
+          <button class="btn btn-danger" onclick="resetDatabaseToDefault()">
+            <i class="fa-solid fa-trash-can"></i> <span data-translate="set_reset_btn">إرجاع وإعادة تهيئة النظام بالكامل</span>
+          </button>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ================= نافذة منبثقة لإضافة/تعديل صنف بيطري ================= -->
+  <div class="modal-backdrop" id="product-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="product-modal-title" data-translate="prod_modal_add_title">إضافة صنف بيطري جديد</h3>
+        <button class="close-modal-btn" onclick="closeProductModal()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body">
+        <form id="product-form" onsubmit="saveProductForm(event)">
+          <input type="hidden" id="prod-idx">
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="prod-code" data-translate="prod_code_label">كود الصنف (فريد)</label>
+              <input type="text" id="prod-code" class="form-control" required placeholder="مثال: 1020" data-translate-placeholder="prod_code_placeholder">
+            </div>
+            <div class="form-group">
+              <label for="prod-name" data-translate="prod_name_label">اسم الصنف البيطري</label>
+              <input type="text" id="prod-name" class="form-control" required placeholder="مثال: MULTIVIT VET" data-translate-placeholder="prod_name_placeholder">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="prod-category" data-translate="prod_category_label">الفئة البيطرية</label>
+              <select id="prod-category" class="form-control">
+                <option value="دواجن" data-translate="filter_cat_poultry">دواجن</option>
+                <option value="ماشية" data-translate="filter_cat_cattle">ماشية</option>
+                <option value="إضافات علفية" data-translate="filter_cat_additives">إضافات علفية</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="prod-unit" data-translate="prod_unit_label">الوحدة التجارية</label>
+              <input type="text" id="prod-unit" class="form-control" required placeholder="مثل: لتر، كجم، 100 مل" data-translate-placeholder="prod_unit_placeholder">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="prod-initial-stock" data-translate="prod_initial_stock_label">الرصيد الافتتاحي (كمية البداية)</label>
+              <input type="number" id="prod-initial-stock" class="form-control" required min="0" value="0">
+            </div>
+            <div class="form-group">
+              <label for="prod-reorder" data-translate="prod_reorder_limit_label">حد إعادة الطلب (الحذر)</label>
+              <input type="number" id="prod-reorder" class="form-control" required min="0" value="100">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="prod-expiry" data-translate="prod_expiry_label">تاريخ الصلاحية</label>
+              <input type="date" id="prod-expiry" class="form-control" required>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="prod-price-sell" data-translate="prod_price_sell_label">سعر البيع الافتراضي (ر.س)</label>
+                <input type="number" step="0.01" id="prod-price-sell" class="form-control" required min="0" value="100">
+              </div>
+              <div class="form-group">
+                <label for="prod-price-buy" data-translate="prod_price_buy_label">سعر الشراء الافتراضي (ر.س)</label>
+                <input type="number" step="0.01" id="prod-price-buy" class="form-control" required min="0" value="70">
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-footer" style="padding-bottom: 0; padding-right: 0; padding-left: 0;">
+            <button type="button" class="btn btn-secondary" onclick="closeProductModal()" data-translate="btn_cancel">إلغاء</button>
+            <button type="submit" class="btn btn-primary" data-translate="prod_btn_save">حفظ بيانات الصنف</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= نافذة منبثقة لإضافة/تعديل عميل ================= -->
+  <div class="modal-backdrop" id="customer-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="customer-modal-title" data-translate="cust_modal_add_title">إضافة عميل / مزرعة جديدة</h3>
+        <button class="close-modal-btn" onclick="closeCustomerModal()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body">
+        <form id="customer-form" onsubmit="saveCustomerForm(event)">
+          <input type="hidden" id="cust-idx">
+          
+          <div class="form-group">
+            <label for="cust-name" data-translate="cust_name_label_modal">اسم العميل بالكامل / المزرعة البيطرية</label>
+            <input type="text" id="cust-name" class="form-control" required placeholder="مثال: مزرعة الروضة لإنتاج الدواجن" data-translate-placeholder="cust_name_placeholder">
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="cust-region" data-translate="cust_region_label_modal">المنطقة الجغرافية المعتمدة</label>
+              <select id="cust-region" class="form-control">
+                <option value="الغربية" data-translate="filter_region_west">المنطقة الغربية</option>
+                <option value="الوسطى" data-translate="filter_region_center">المنطقة الوسطى</option>
+                <option value="الجنوبية" data-translate="filter_region_south">المنطقة الجنوبية</option>
+                <option value="الشرقية" data-translate="filter_region_east">المنطقة الشرقية</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="cust-phone" data-translate="cust_phone_label_modal">رقم الجوال للتواصل</label>
+              <input type="tel" id="cust-phone" class="form-control" placeholder="مثال: 0500000000" data-translate-placeholder="cust_phone_placeholder">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="cust-balance" data-translate="cust_balance_label_modal">الرصيد المالي الافتتاحي للعميل (ر.س)</label>
+              <input type="number" step="0.01" id="cust-balance" class="form-control" required value="0">
+            </div>
+            <div class="form-group">
+              <label for="cust-credit-days" data-translate="cust_credit_days_label_modal">مدة الائتمان (بالأيام)</label>
+              <input type="number" id="cust-credit-days" class="form-control" required value="30" min="0">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="cust-email" data-translate="cust_email_label_modal">البريد الإلكتروني</label>
+            <input type="email" id="cust-email" class="form-control" placeholder="email@example.com">
+          </div>
+
+          <div class="modal-footer" style="padding-bottom: 0; padding-right: 0; padding-left: 0;">
+            <button type="button" class="btn btn-secondary" onclick="closeCustomerModal()" data-translate="btn_cancel">إلغاء</button>
+            <button type="submit" class="btn btn-primary" data-translate="cust_btn_save">حفظ بيانات العميل</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- استدعاء ملفات الجافاسكريبت بالترتيب الصحيح لضمان تحميل البيانات الافتراضية أولاً -->
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+
+  <!-- تسجيل الـ Service Worker لتفعيل وضع الـ PWA للآيفون -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then(reg => console.log('Service Worker Registered Successfully! Scope:', reg.scope))
+          .catch(err => console.log('Service Worker Registration Failed:', err));
+      });
+    }
+  </script>
+
+</body>
+</html>

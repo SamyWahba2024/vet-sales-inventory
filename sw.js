@@ -1,11 +1,12 @@
-const CACHE_NAME = 'vetstock-cache-v1';
+const CACHE_NAME = 'vetstock-cache-v2';
 const ASSETS = [
   './',
   './index.html',
   './app.css',
   './app.js',
   './data.js',
-  './manifest.json'
+  './manifest.json',
+  './apple-touch-icon.png'
 ];
 
 // Install Event

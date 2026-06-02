@@ -2236,15 +2236,40 @@ function generateFinancialReport() {
     targetVal1.innerText = "كافة عملاء الائتمان النشطين";
     infoItem2.style.display = 'none';
     
-    // تاريخ التقييم (افتراضياً اليوم إذا لم يتم تحديده)
-    const refDate = endDate || new Date();
-    const refDateStr = refDate.toISOString().slice(0, 10);
+    // تاريخ التقييم (مصحح لتجنب انزياح المناطق الزمنية في المتصفحات)
+    let refDate;
+    let refDateStr = "";
+    if (endDateStr) {
+      const parts = endDateStr.split('-');
+      refDate = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]), 23, 59, 59, 999);
+      refDateStr = endDateStr;
+    } else {
+      refDate = new Date();
+      const y = refDate.getFullYear();
+      const m = String(refDate.getMonth() + 1).padStart(2, '0');
+      const d = String(refDate.getDate()).padStart(2, '0');
+      refDateStr = `${y}-${m}-${d}`;
+    }
     
     let totalOverallDue = 0;
     let totalOverallDebt = 0;
     let dueCustomersCount = 0;
     let dueCustomersList = [];
     
+    // دالة مساعدة لحساب تاريخ الاستحقاق المحلي لتفادي انزياح التوقيت العالمي (UTC)
+    const calculateDueDateLocal = (dateStr, days) => {
+      const parts = dateStr.split('-');
+      const date = new Date(Number(parts[0]), Number(parts[1]) - 1, Number(parts[2]));
+      date.setDate(date.getDate() + days);
+      const y = date.getFullYear();
+      const m = String(date.getMonth() + 1).padStart(2, '0');
+      const d = String(date.getDate()).padStart(2, '0');
+      return {
+        dateObject: new Date(y, date.getMonth(), date.getDate(), 0, 0, 0, 0),
+        dateStr: `${y}-${m}-${d}`
+      };
+    };
+
     // حساب الائتمان لكل عميل باستخدام خوارزمية FIFO المحاسبية
     state.customers.forEach(c => {
       const creditDays = c.credit_days !== undefined ? Number(c.credit_days) : 30;
@@ -2272,16 +2297,14 @@ function generateFinancialReport() {
         if (tRow.customer === c.name && (tRow.type === 'sales' || tRow.type === 'sales_vaxigen')) {
           const invTotal = Number(tRow.total) || 0;
           
-          // تاريخ الفاتورة وتاريخ الاستحقاق
-          const invDate = new Date(tRow.date);
-          const dueDate = new Date(invDate);
-          dueDate.setDate(dueDate.getDate() + creditDays);
+          // حساب تاريخ الاستحقاق بشكل محلي آمن
+          const dueData = calculateDueDateLocal(tRow.date, creditDays);
           
           invoices.push({
             id: tRow.id,
             date: tRow.date,
-            dueDate: dueDate,
-            dueDateStr: dueDate.toISOString().slice(0, 10),
+            dueDate: dueData.dateObject,
+            dueDateStr: dueData.dateStr,
             total: invTotal,
             unpaid: invTotal // سيتم تعديلها بالـ FIFO
           });

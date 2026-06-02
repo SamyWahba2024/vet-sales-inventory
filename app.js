@@ -2254,6 +2254,20 @@ function generateFinancialReport() {
       
       // الحصول على فواتير المبيعات وتواريخ استحقاقها
       const invoices = [];
+      
+      // إدراج الرصيد الافتتاحي كأول دين مستحق (إذا كان موجباً)
+      const initialBalance = Number(c.initial_balance) || 0;
+      if (initialBalance > 0) {
+        invoices.push({
+          id: "initial_balance",
+          date: "1970-01-01",
+          dueDate: new Date(0), // مستحق فوراً
+          dueDateStr: "رصيد افتتاحي منقول",
+          total: initialBalance,
+          unpaid: initialBalance
+        });
+      }
+
       state.transactions.forEach(tRow => {
         if (tRow.customer === c.name && (tRow.type === 'sales' || tRow.type === 'sales_vaxigen')) {
           const invTotal = Number(tRow.total) || 0;
@@ -2274,7 +2288,7 @@ function generateFinancialReport() {
         }
       });
       
-      // ترتيب الفواتير من الأقدم للأحدث لتطبيق الـ FIFO
+      // ترتيب الفواتير من الأقدم للأحدث لتطبيق الـ FIFO (الرصيد الافتتاحي سيكون الأول دائماً)
       invoices.sort((a, b) => new Date(a.date) - new Date(b.date));
       
       // الحصول على إجمالي المبالغ المسددة أو المرتجعة للعميل
@@ -2290,12 +2304,11 @@ function generateFinancialReport() {
       });
       
       // إذا كان لدى العميل رصيد افتتاحي دائن (سلبي) نعتبره تسديدات إضافية
-      const initialBalance = Number(c.initial_balance) || 0;
       if (initialBalance < 0) {
         totalCredits += Math.abs(initialBalance);
       }
       
-      // تطبيق الـ FIFO: تسوية الفواتير الأقدم أولاً بأول باستخدام التسديدات
+      // تطبيق الـ FIFO: تسوية الديون/الفواتير الأقدم أولاً بأول باستخدام التسديدات
       let remainingCredits = totalCredits;
       invoices.forEach(inv => {
         if (remainingCredits >= inv.total) {
@@ -2313,18 +2326,14 @@ function generateFinancialReport() {
       let customerDueVal = 0;
       const dueInvoicesInfo = [];
       
-      // إذا كان للعميل رصيد افتتاحي مدين (موجب)، نعتبره ديناً مستحق السداد فوراً لأنه مرحل من البداية
-      // ولكن نخصم منه أي تسديدات فائضة لم تغطي الفواتير بعد
-      let initialDebtOutstanding = Math.max(0, initialBalance - totalCredits);
-      customerDueVal += initialDebtOutstanding;
-      if (initialDebtOutstanding > 0) {
-        dueInvoicesInfo.push(`رصيد افتتاحي (${initialDebtOutstanding.toFixed(0)} ر.س)`);
-      }
-      
       invoices.forEach(inv => {
         if (inv.unpaid > 0 && inv.dueDate <= refDate) {
           customerDueVal += inv.unpaid;
-          dueInvoicesInfo.push(`فاتورة #${inv.id} (${inv.unpaid.toFixed(0)} ر.س، استحقاق: ${inv.dueDateStr})`);
+          if (inv.id === "initial_balance") {
+            dueInvoicesInfo.push(`رصيد افتتاحي (${inv.unpaid.toFixed(0)} ر.س)`);
+          } else {
+            dueInvoicesInfo.push(`فاتورة #${inv.id} (${inv.unpaid.toFixed(0)} ر.س، استحقاق: ${inv.dueDateStr})`);
+          }
         }
       });
       

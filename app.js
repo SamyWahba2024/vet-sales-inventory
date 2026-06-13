@@ -1549,7 +1549,7 @@ function openCustomerModal(index = null) {
     
     document.getElementById('cust-idx').value = index;
     document.getElementById('cust-name').value = c.name;
-    document.getElementById('cust-name').readOnly = true;
+    document.getElementById('cust-name').readOnly = false; // السماح بتعديل الاسم
     document.getElementById('cust-region').value = c.region;
     document.getElementById('cust-phone').value = c.phone || "";
     document.getElementById('cust-balance').value = c.initial_balance;
@@ -1571,7 +1571,7 @@ function saveCustomerForm(event) {
   event.preventDefault();
   
   const index = document.getElementById('cust-idx').value;
-  const name = document.getElementById('cust-name').value;
+  const name = document.getElementById('cust-name').value.trim();
   const region = document.getElementById('cust-region').value;
   const phone = document.getElementById('cust-phone').value;
   const initialBalance = Number(document.getElementById('cust-balance').value) || 0;
@@ -1579,17 +1579,36 @@ function saveCustomerForm(event) {
   const creditDays = Number(document.getElementById('cust-credit-days').value) || 0;
 
   if (index !== "") {
-    // تعديل
+    // تعديل عميل قائم
     const idx = parseInt(index);
+    const oldName = state.customers[idx].name;
+    
+    if (oldName !== name) {
+      // إذا تم تغيير الاسم، نتحقق أن الاسم الجديد غير مستخدم لعميل آخر
+      if (state.customers.some((c, cIdx) => c.name === name && cIdx !== idx)) {
+        alert("خطأ: اسم هذا العميل أو المزرعة مسجل مسبقاً لعميل آخر.");
+        return;
+      }
+      
+      // تحديث اسم العميل في كافة الفواتير والعمليات السابقة لربطها بالاسم الجديد
+      state.transactions.forEach(t => {
+        if (t.customer === oldName) {
+          t.customer = name;
+        }
+      });
+      console.log(`Propagated customer name change from "${oldName}" to "${name}" across transactions.`);
+    }
+
     state.customers[idx] = {
       ...state.customers[idx],
+      name,
       region,
       phone,
       initial_balance: initialBalance,
       email,
       credit_days: creditDays
     };
-    alert("تم تعديل بيانات العميل بنجاح!");
+    alert("تم تعديل بيانات العميل وحفظها بنجاح!");
   } else {
     // عميل جديد
     if (state.customers.some(c => c.name === name)) {

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'vetstock-cache-v3';
+const CACHE_NAME = 'vetstock-cache-v4';
 const ASSETS = [
   './',
   './index.html',

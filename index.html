@@ -28,7 +28,7 @@
         <div class="logo-icon">
           <i class="fa-solid fa-prescription-bottle-medical"></i>
         </div>
-        <div class="logo-text">VetStock Pro</div>
+        <div class="logo-text" id="logo-text">VetStock Pro</div>
       </div>
       
       <nav class="nav-links">
@@ -812,30 +812,131 @@
           <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 20px; line-height: 1.6;" data-translate="set_num_desc">
             في حال قمت بحذف فاتورة أو معاملة بالخطأ وترغب في تعديل أو استرجاع تسلسل الترقيم التلقائي للفاتورة القادمة، يمكنك تعديل القيم أدناه مباشرة وحفظ التغييرات.
           </p>
-          <div class="form-row" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-bottom: 20px;">
-            <div class="form-group">
-              <label for="setting-next-sales" style="font-size: 13px;" data-translate="set_num_sales">المبيعات العامة القادمة (S)</label>
-              <input type="number" id="setting-next-sales" class="form-control" min="1" placeholder="مثال: 78">
+          <div class="numbering-settings-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; margin-bottom: 20px;">
+            <!-- المبيعات العامة S -->
+            <div style="background: rgba(256,256,256,0.02); padding: 12px; border-radius: 8px; border: 1px solid var(--border-color);">
+              <div style="font-weight: 700; font-size: 13px; margin-bottom: 10px; color: var(--primary);">المبيعات العامة S</div>
+              <div style="display: flex; gap: 8px;">
+                <div style="flex: 1;">
+                  <label style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px; display: block;">الكود (البادئة)</label>
+                  <input type="text" id="setting-prefix-sales" class="form-control" placeholder="مثال: S-" style="padding: 6px 10px; font-size: 13px;">
+                </div>
+                <div style="flex: 1.5;">
+                  <label style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px; display: block;">الرقم القادم</label>
+                  <input type="number" id="setting-next-sales" class="form-control" min="1" placeholder="مثال: 78" style="padding: 6px 10px; font-size: 13px;">
+                </div>
+              </div>
             </div>
-            <div class="form-group">
-              <label for="setting-next-vaxigen" style="font-size: 13px;" data-translate="set_num_sales_v">مبيعات شركة V القادمة (V)</label>
-              <input type="number" id="setting-next-vaxigen" class="form-control" min="1" placeholder="مثال: 1">
+
+            <!-- مبيعات شركة V -->
+            <div style="background: rgba(256,256,256,0.02); padding: 12px; border-radius: 8px; border: 1px solid var(--border-color);">
+              <div style="font-weight: 700; font-size: 13px; margin-bottom: 10px; color: var(--success);">مبيعات شركة V</div>
+              <div style="display: flex; gap: 8px;">
+                <div style="flex: 1;">
+                  <label style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px; display: block;">الكود (البادئة)</label>
+                  <input type="text" id="setting-prefix-vaxigen" class="form-control" placeholder="مثال: V-" style="padding: 6px 10px; font-size: 13px;">
+                </div>
+                <div style="flex: 1.5;">
+                  <label style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px; display: block;">الرقم القادم</label>
+                  <input type="number" id="setting-next-vaxigen" class="form-control" min="1" placeholder="مثال: 1" style="padding: 6px 10px; font-size: 13px;">
+                </div>
+              </div>
             </div>
-            <div class="form-group">
-              <label for="setting-next-purchase" style="font-size: 13px;" data-translate="set_num_purchase">المشتريات القادمة (B)</label>
-              <input type="number" id="setting-next-purchase" class="form-control" min="1" placeholder="مثال: 1">
+
+            <!-- المشتريات B -->
+            <div style="background: rgba(256,256,256,0.02); padding: 12px; border-radius: 8px; border: 1px solid var(--border-color);">
+              <div style="font-weight: 700; font-size: 13px; margin-bottom: 10px; color: var(--secondary);">المشتريات B</div>
+              <div style="display: flex; gap: 8px;">
+                <div style="flex: 1;">
+                  <label style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px; display: block;">الكود (البادئة)</label>
+                  <input type="text" id="setting-prefix-purchase" class="form-control" placeholder="مثال: B-" style="padding: 6px 10px; font-size: 13px;">
+                </div>
+                <div style="flex: 1.5;">
+                  <label style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px; display: block;">الرقم القادم</label>
+                  <input type="number" id="setting-next-purchase" class="form-control" min="1" placeholder="مثال: 1" style="padding: 6px 10px; font-size: 13px;">
+                </div>
+              </div>
             </div>
-            <div class="form-group">
-              <label for="setting-next-return" style="font-size: 13px;" data-translate="set_num_return">المرتجع القادم (R)</label>
-              <input type="number" id="setting-next-return" class="form-control" min="1" placeholder="مثال: 1">
+
+            <!-- المرتجع R -->
+            <div style="background: rgba(256,256,256,0.02); padding: 12px; border-radius: 8px; border: 1px solid var(--border-color);">
+              <div style="font-weight: 700; font-size: 13px; margin-bottom: 10px; color: var(--accent);">المرتجع R</div>
+              <div style="display: flex; gap: 8px;">
+                <div style="flex: 1;">
+                  <label style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px; display: block;">الكود (البادئة)</label>
+                  <input type="text" id="setting-prefix-return" class="form-control" placeholder="مثال: R-" style="padding: 6px 10px; font-size: 13px;">
+                </div>
+                <div style="flex: 1.5;">
+                  <label style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px; display: block;">الرقم القادم</label>
+                  <input type="number" id="setting-next-return" class="form-control" min="1" placeholder="مثال: 1" style="padding: 6px 10px; font-size: 13px;">
+                </div>
+              </div>
             </div>
-            <div class="form-group">
-              <label for="setting-next-payment" style="font-size: 13px;" data-translate="set_num_payment">سند القبض القادم</label>
-              <input type="number" id="setting-next-payment" class="form-control" min="1" placeholder="مثال: 1">
+
+            <!-- سند القبض P -->
+            <div style="background: rgba(256,256,256,0.02); padding: 12px; border-radius: 8px; border: 1px solid var(--border-color);">
+              <div style="font-weight: 700; font-size: 13px; margin-bottom: 10px; color: #ffb703;">سند القبض P</div>
+              <div style="display: flex; gap: 8px;">
+                <div style="flex: 1;">
+                  <label style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px; display: block;">الكود (البادئة)</label>
+                  <input type="text" id="setting-prefix-payment" class="form-control" placeholder="مثال: P-" style="padding: 6px 10px; font-size: 13px;">
+                </div>
+                <div style="flex: 1.5;">
+                  <label style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px; display: block;">الرقم القادم</label>
+                  <input type="number" id="setting-next-payment" class="form-control" min="1" placeholder="مثال: 1" style="padding: 6px 10px; font-size: 13px;">
+                </div>
+              </div>
             </div>
           </div>
           <button class="btn btn-accent" onclick="saveNumberingSettings()">
-            <i class="fa-solid fa-floppy-disk"></i> <span data-translate="set_num_btn">حفظ وتعديل أرقام التسلسل القادمة</span>
+            <i class="fa-solid fa-floppy-disk"></i> <span>حفظ وتعديل أرقام وأكواد التسلسل</span>
+          </button>
+        </div>
+
+        <!-- لوحة تخصيص أسماء التطبيق والقوائم -->
+        <div class="alert-panel" style="border-right: 4px solid var(--primary); margin-top: 24px;">
+          <div class="panel-header">
+            <h2><i class="fa-solid fa-pen-to-square" style="color: var(--primary);"></i> <span data-translate="set_custom_title">تخصيص اسم التطبيق وأسماء القوائم</span></h2>
+          </div>
+          <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 20px; line-height: 1.6;" data-translate="set_custom_desc">
+            يمكنك تغيير اسم البرنامج الرئيسي المعروض في الشريط الجانبي وتعديل مسميات القوائم الفرعية (التبويبات) لتناسب مسميات أعمالك الخاصة.
+          </p>
+          <div class="form-row" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; margin-bottom: 20px;">
+            <div class="form-group" style="grid-column: 1 / -1;">
+              <label for="setting-app-name" style="font-weight: 600;">اسم التطبيق الرئيسي (يعرض في الأعلى وشريط العنوان)</label>
+              <input type="text" id="setting-app-name" class="form-control" placeholder="مثال: VetStock Pro">
+            </div>
+            <div class="form-group">
+              <label for="setting-menu-dashboard">لوحة التحكم</label>
+              <input type="text" id="setting-menu-dashboard" class="form-control" placeholder="لوحة التحكم">
+            </div>
+            <div class="form-group">
+              <label for="setting-menu-invoices">الفواتير والعمليات</label>
+              <input type="text" id="setting-menu-invoices" class="form-control" placeholder="الفواتير والعمليات">
+            </div>
+            <div class="form-group">
+              <label for="setting-menu-inventory">إدارة المخزون</label>
+              <input type="text" id="setting-menu-inventory" class="form-control" placeholder="إدارة المخزون">
+            </div>
+            <div class="form-group">
+              <label for="setting-menu-customers">العملاء والحسابات</label>
+              <input type="text" id="setting-menu-customers" class="form-control" placeholder="العملاء والحسابات">
+            </div>
+            <div class="form-group">
+              <label for="setting-menu-ledger">كشف الحساب</label>
+              <input type="text" id="setting-menu-ledger" class="form-control" placeholder="كشف الحساب">
+            </div>
+            <div class="form-group">
+              <label for="setting-menu-reports">مركز التقارير</label>
+              <input type="text" id="setting-menu-reports" class="form-control" placeholder="مركز التقارير">
+            </div>
+            <div class="form-group">
+              <label for="setting-menu-settings">النسخ والإعدادات</label>
+              <input type="text" id="setting-menu-settings" class="form-control" placeholder="النسخ والإعدادات">
+            </div>
+          </div>
+          <button class="btn btn-primary" onclick="saveCustomNamesSettings()">
+            <i class="fa-solid fa-circle-check"></i> <span>حفظ وتطبيق المسميات الجديدة</span>
           </button>
         </div>
 

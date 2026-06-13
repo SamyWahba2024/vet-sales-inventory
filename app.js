@@ -20,6 +20,25 @@ function initApp() {
     try {
       state = JSON.parse(savedData);
       
+      // تهيئة مسميات التطبيق والقوائم إذا لم تكن موجودة
+      if (!state.appName) state.appName = 'VetStock Pro';
+      if (!state.menuNames) {
+        state.menuNames = {
+          nav_dashboard: "لوحة التحكم",
+          nav_invoices: "الفواتير والعمليات",
+          nav_inventory: "إدارة المخزون",
+          nav_customers: "العملاء والحسابات",
+          nav_ledger: "كشف الحساب",
+          nav_reports: "مركز التقارير",
+          nav_settings: "النسخ والإعدادات"
+        };
+      }
+      if (state.prefixSales === undefined) state.prefixSales = 'S-';
+      if (state.prefixVaxigen === undefined) state.prefixVaxigen = 'V-';
+      if (state.prefixPurchase === undefined) state.prefixPurchase = 'B-';
+      if (state.prefixReturn === undefined) state.prefixReturn = 'R-';
+      if (state.prefixPayment === undefined) state.prefixPayment = 'P-';
+      
       // هجرة وتطهير قاعدة البيانات التلقائي لحذف مبيعات شركة Z وتثبيت الترقيم بعد S77
       if (state.transactions) {
         state.transactions = state.transactions.filter(t => t.type !== 'sales_z' && !t.id.startsWith('Z-'));
@@ -67,6 +86,7 @@ function initApp() {
 
   // تهيئة الواجهة
   applyLanguage(state.currentLang || 'ar');
+  applyCustomNamesToDOM();
   switchSection('dashboard');
   refreshAllViews();
 }
@@ -82,6 +102,21 @@ function loadDefaultDatabase() {
     state.nextPurchaseInvoiceNum = 1;
     state.nextReturnInvoiceNum = 1;
     state.nextPaymentNum = 1;
+    state.appName = 'VetStock Pro';
+    state.menuNames = {
+      nav_dashboard: "لوحة التحكم",
+      nav_invoices: "الفواتير والعمليات",
+      nav_inventory: "إدارة المخزون",
+      nav_customers: "العملاء والحسابات",
+      nav_ledger: "كشف الحساب",
+      nav_reports: "مركز التقارير",
+      nav_settings: "النسخ والإعدادات"
+    };
+    state.prefixSales = 'S-';
+    state.prefixVaxigen = 'V-';
+    state.prefixPurchase = 'B-';
+    state.prefixReturn = 'R-';
+    state.prefixPayment = 'P-';
     saveState();
     console.log("Initialized default database from desktop data.js");
   } else {
@@ -744,7 +779,7 @@ function handleInvoiceTypeChange(isEditing = false) {
     paymentWrapper.style.display = 'block';
     pricingSummary.style.display = 'none';
     numDisplayGroup.style.display = 'block';
-    numDisplay.value = "سند قبض #" + state.nextPaymentNum;
+    numDisplay.value = (state.prefixPayment || "P-") + state.nextPaymentNum;
     partyLabel.innerText = "العميل المستلم منه";
   } else {
     // فواتير
@@ -755,13 +790,13 @@ function handleInvoiceTypeChange(isEditing = false) {
     partyLabel.innerText = type === 'purchase' ? "المورد / تفاصيل الشراء" : "العميل";
     
     if (type === 'sales') {
-      numDisplay.value = "فاتورة مبيعات #" + state.nextSalesInvoiceNum;
+      numDisplay.value = (state.prefixSales || "S-") + state.nextSalesInvoiceNum;
     } else if (type === 'sales_vaxigen') {
-      numDisplay.value = "فاتورة شركة V #" + state.nextVaxigenSalesInvoiceNum;
+      numDisplay.value = (state.prefixVaxigen || "V-") + state.nextVaxigenSalesInvoiceNum;
     } else if (type === 'purchase') {
-      numDisplay.value = "فاتورة مشتريات #" + state.nextPurchaseInvoiceNum;
+      numDisplay.value = (state.prefixPurchase || "B-") + state.nextPurchaseInvoiceNum;
     } else if (type === 'return') {
-      numDisplay.value = "فاتورة مرتجع #" + state.nextReturnInvoiceNum;
+      numDisplay.value = (state.prefixReturn || "R-") + state.nextReturnInvoiceNum;
     }
     
     if (!isEditing) {
@@ -931,8 +966,9 @@ function saveInvoiceTransaction() {
     } else {
       // تسجيل سند قبض جديد
       const payId = state.nextPaymentNum;
+      const paymentIdStr = (state.prefixPayment || "P-") + payId;
       const transaction = {
-        id: "P-" + payId,
+        id: paymentIdStr,
         type: 'payment',
         customer: party,
         date: dateInput,
@@ -942,7 +978,7 @@ function saveInvoiceTransaction() {
       state.transactions.push(transaction);
       state.nextPaymentNum++;
       saveState();
-      alert(`تم ترحيل سند القبض رقم P-${payId} بنجاح، وخصم المبلغ من مديونية العميل!`);
+      alert(`تم ترحيل سند القبض رقم ${paymentIdStr} بنجاح، وخصم المبلغ من مديونية العميل!`);
     }
     
     // إعادة تهيئة النموذج والخروج
@@ -1041,16 +1077,16 @@ function saveInvoiceTransaction() {
       // تسجيل فاتورة جديدة تماماً
       let invId = "";
       if (type === 'sales') {
-        invId = "S-" + state.nextSalesInvoiceNum;
+        invId = (state.prefixSales || "S-") + state.nextSalesInvoiceNum;
         state.nextSalesInvoiceNum++;
       } else if (type === 'sales_vaxigen') {
-        invId = "V-" + state.nextVaxigenSalesInvoiceNum;
+        invId = (state.prefixVaxigen || "V-") + state.nextVaxigenSalesInvoiceNum;
         state.nextVaxigenSalesInvoiceNum++;
       } else if (type === 'purchase') {
-        invId = "B-" + state.nextPurchaseInvoiceNum;
+        invId = (state.prefixPurchase || "B-") + state.nextPurchaseInvoiceNum;
         state.nextPurchaseInvoiceNum++;
       } else if (type === 'return') {
-        invId = "R-" + state.nextReturnInvoiceNum;
+        invId = (state.prefixReturn || "R-") + state.nextReturnInvoiceNum;
         state.nextReturnInvoiceNum++;
       }
       
@@ -1695,20 +1731,38 @@ function populateNumberingInputs() {
   const returnInput = document.getElementById('setting-next-return');
   const paymentInput = document.getElementById('setting-next-payment');
 
+  const prefixSalesInput = document.getElementById('setting-prefix-sales');
+  const prefixVaxigenInput = document.getElementById('setting-prefix-vaxigen');
+  const prefixPurchaseInput = document.getElementById('setting-prefix-purchase');
+  const prefixReturnInput = document.getElementById('setting-prefix-return');
+  const prefixPaymentInput = document.getElementById('setting-prefix-payment');
+
   if (salesInput) salesInput.value = state.nextSalesInvoiceNum || 78;
   if (vaxigenInput) vaxigenInput.value = state.nextVaxigenSalesInvoiceNum || 1;
   if (purchaseInput) purchaseInput.value = state.nextPurchaseInvoiceNum || 1;
   if (returnInput) returnInput.value = state.nextReturnInvoiceNum || 1;
   if (paymentInput) paymentInput.value = state.nextPaymentNum || 1;
+
+  if (prefixSalesInput) prefixSalesInput.value = state.prefixSales || 'S-';
+  if (prefixVaxigenInput) prefixVaxigenInput.value = state.prefixVaxigen || 'V-';
+  if (prefixPurchaseInput) prefixPurchaseInput.value = state.prefixPurchase || 'B-';
+  if (prefixReturnInput) prefixReturnInput.value = state.prefixReturn || 'R-';
+  if (prefixPaymentInput) prefixPaymentInput.value = state.prefixPayment || 'P-';
 }
 
-// حفظ أرقام التسلسل المعدلة يدوياً
+// حفظ أرقام التسلسل وأكواد البادئة المخصصة يدوياً
 function saveNumberingSettings() {
   const nextSales = parseInt(document.getElementById('setting-next-sales').value);
   const nextVaxigen = parseInt(document.getElementById('setting-next-vaxigen').value);
   const nextPurchase = parseInt(document.getElementById('setting-next-purchase').value);
   const nextReturn = parseInt(document.getElementById('setting-next-return').value);
   const nextPayment = parseInt(document.getElementById('setting-next-payment').value);
+
+  const prefixSales = document.getElementById('setting-prefix-sales').value.trim();
+  const prefixVaxigen = document.getElementById('setting-prefix-vaxigen').value.trim();
+  const prefixPurchase = document.getElementById('setting-prefix-purchase').value.trim();
+  const prefixReturn = document.getElementById('setting-prefix-return').value.trim();
+  const prefixPayment = document.getElementById('setting-prefix-payment').value.trim();
 
   if (isNaN(nextSales) || nextSales < 1 ||
       isNaN(nextVaxigen) || nextVaxigen < 1 ||
@@ -1725,11 +1779,149 @@ function saveNumberingSettings() {
   state.nextReturnInvoiceNum = nextReturn;
   state.nextPaymentNum = nextPayment;
 
+  state.prefixSales = prefixSales || 'S-';
+  state.prefixVaxigen = prefixVaxigen || 'V-';
+  state.prefixPurchase = prefixPurchase || 'B-';
+  state.prefixReturn = prefixReturn || 'R-';
+  state.prefixPayment = prefixPayment || 'P-';
+
+  // التحقق مما إذا كان المستخدم يرغب في تطبيق المسميات والأرقام الجديدة على العمليات الحالية
+  if (state.transactions && state.transactions.length > 0) {
+    if (confirm("هل ترغب في إعادة ترقيم وتغيير كود تسلسل جميع الفواتير والمعاملات الحالية المسجلة بالبرنامج لتطابق الأكواد الجديدة والترتيب الزمني الجديد؟")) {
+      resequenceExistingTransactions();
+    }
+  }
+
   saveState();
-  alert("تم تعديل وحفظ أرقام تسلسل الفواتير والعمليات القادمة بنجاح!");
+  alert("تم تعديل وحفظ أرقام تسلسل وأكواد الفواتير والعمليات القادمة بنجاح!");
   
   // تحديث وعرض شاشة الفواتير لتنعكس الأرقام الجديدة فوراً
   refreshAllViews();
+}
+
+// دالة لإعادة ترقيم وتسلسل الفواتير الحالية بناءً على الأكواد والبدايات الجديدة
+function resequenceExistingTransactions() {
+  let countSales = parseInt(document.getElementById('setting-next-sales').value) || 1;
+  let countVaxigen = parseInt(document.getElementById('setting-next-vaxigen').value) || 1;
+  let countPurchase = parseInt(document.getElementById('setting-next-purchase').value) || 1;
+  let countReturn = parseInt(document.getElementById('setting-next-return').value) || 1;
+  let countPayment = parseInt(document.getElementById('setting-next-payment').value) || 1;
+
+  const prefixSales = document.getElementById('setting-prefix-sales').value.trim() || 'S-';
+  const prefixVaxigen = document.getElementById('setting-prefix-vaxigen').value.trim() || 'V-';
+  const prefixPurchase = document.getElementById('setting-prefix-purchase').value.trim() || 'B-';
+  const prefixReturn = document.getElementById('setting-prefix-return').value.trim() || 'R-';
+  const prefixPayment = document.getElementById('setting-prefix-payment').value.trim() || 'P-';
+
+  // ترتيب الفواتير الحالية زمنياً من الأقدم للأحدث لضمان ترقيم متناسق مع التاريخ
+  state.transactions.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+  // إعادة الترقيم الفعلي لكل عملية بناءً على نوعها
+  state.transactions.forEach(t => {
+    if (t.type === 'sales') {
+      t.id = prefixSales + countSales;
+      countSales++;
+    } else if (t.type === 'sales_vaxigen') {
+      t.id = prefixVaxigen + countVaxigen;
+      countVaxigen++;
+    } else if (t.type === 'purchase') {
+      t.id = prefixPurchase + countPurchase;
+      countPurchase++;
+    } else if (t.type === 'return') {
+      t.id = prefixReturn + countReturn;
+      countReturn++;
+    } else if (t.type === 'payment') {
+      t.id = prefixPayment + countPayment;
+      countPayment++;
+    }
+  });
+
+  // تحديث القيم التالية في الـ state للاستمرار من الرقم التالي
+  state.nextSalesInvoiceNum = countSales;
+  state.nextVaxigenSalesInvoiceNum = countVaxigen;
+  state.nextPurchaseInvoiceNum = countPurchase;
+  state.nextReturnInvoiceNum = countReturn;
+  state.nextPaymentNum = countPayment;
+}
+
+// تعبئة حقول مسميات التطبيق والقوائم المخصصة
+function populateCustomNamesInputs() {
+  const appNameInput = document.getElementById('setting-app-name');
+  const menuDashboardInput = document.getElementById('setting-menu-dashboard');
+  const menuInvoicesInput = document.getElementById('setting-menu-invoices');
+  const menuInventoryInput = document.getElementById('setting-menu-inventory');
+  const menuCustomersInput = document.getElementById('setting-menu-customers');
+  const menuLedgerInput = document.getElementById('setting-menu-ledger');
+  const menuReportsInput = document.getElementById('setting-menu-reports');
+  const menuSettingsInput = document.getElementById('setting-menu-settings');
+
+  if (appNameInput) appNameInput.value = state.appName || 'VetStock Pro';
+  
+  if (state.menuNames) {
+    if (menuDashboardInput) menuDashboardInput.value = state.menuNames.nav_dashboard || 'لوحة التحكم';
+    if (menuInvoicesInput) menuInvoicesInput.value = state.menuNames.nav_invoices || 'الفواتير والعمليات';
+    if (menuInventoryInput) menuInventoryInput.value = state.menuNames.nav_inventory || 'إدارة المخزون';
+    if (menuCustomersInput) menuCustomersInput.value = state.menuNames.nav_customers || 'العملاء والحسابات';
+    if (menuLedgerInput) menuLedgerInput.value = state.menuNames.nav_ledger || 'كشف الحساب';
+    if (menuReportsInput) menuReportsInput.value = state.menuNames.nav_reports || 'مركز التقارير';
+    if (menuSettingsInput) menuSettingsInput.value = state.menuNames.nav_settings || 'النسخ والإعدادات';
+  } else {
+    if (menuDashboardInput) menuDashboardInput.value = 'لوحة التحكم';
+    if (menuInvoicesInput) menuInvoicesInput.value = 'الفواتير والعمليات';
+    if (menuInventoryInput) menuInventoryInput.value = 'إدارة المخزون';
+    if (menuCustomersInput) menuCustomersInput.value = 'العملاء والحسابات';
+    if (menuLedgerInput) menuLedgerInput.value = 'كشف الحساب';
+    if (menuReportsInput) menuReportsInput.value = 'مركز التقارير';
+    if (menuSettingsInput) menuSettingsInput.value = 'النسخ والإعدادات';
+  }
+}
+
+// حفظ المسميات المخصصة
+function saveCustomNamesSettings() {
+  const appName = document.getElementById('setting-app-name').value.trim();
+  const menuDashboard = document.getElementById('setting-menu-dashboard').value.trim();
+  const menuInvoices = document.getElementById('setting-menu-invoices').value.trim();
+  const menuInventory = document.getElementById('setting-menu-inventory').value.trim();
+  const menuCustomers = document.getElementById('setting-menu-customers').value.trim();
+  const menuLedger = document.getElementById('setting-menu-ledger').value.trim();
+  const menuReports = document.getElementById('setting-menu-reports').value.trim();
+  const menuSettings = document.getElementById('setting-menu-settings').value.trim();
+
+  if (!appName) {
+    alert("خطأ: يجب إدخال اسم التطبيق الرئيسي.");
+    return;
+  }
+
+  state.appName = appName;
+  state.menuNames = {
+    nav_dashboard: menuDashboard || 'لوحة التحكم',
+    nav_invoices: menuInvoices || 'الفواتير والعمليات',
+    nav_inventory: menuInventory || 'إدارة المخزون',
+    nav_customers: menuCustomers || 'العملاء والحسابات',
+    nav_ledger: menuLedger || 'كشف الحساب',
+    nav_reports: menuReports || 'مركز التقارير',
+    nav_settings: menuSettings || 'النسخ والإعدادات'
+  };
+
+  saveState();
+  
+  // تحديث فوري للمسميات في الصفحة بأكملها
+  applyCustomNamesToDOM();
+  applyLanguage(state.currentLang || 'ar');
+  
+  alert("تم حفظ وتطبيق المسميات الجديدة بنجاح!");
+}
+
+// دالة لتطبيق المسميات المخصصة فورا على العناصر الرئيسية بالصفحة
+function applyCustomNamesToDOM() {
+  // تحديث عنوان تبويب المتصفح
+  document.title = state.appName || 'VetStock Pro';
+  
+  // تحديث النص في شعار التطبيق (Logo)
+  const logoText = document.getElementById('logo-text');
+  if (logoText) {
+    logoText.innerText = state.appName || 'VetStock Pro';
+  }
 }
 
 // تعبئة قوائم الاختيار لشاشة التقارير
@@ -2526,6 +2718,7 @@ function switchSection(sectionId) {
     document.getElementById('report-empty-message').style.display = 'block';
   } else if (sectionId === 'settings') {
     populateNumberingInputs();
+    populateCustomNamesInputs();
   }
 }
 
@@ -3555,6 +3748,14 @@ const translations = {
 };
 
 function t(key) {
+  // إذا كانت هناك مسميات مخصصة للتبويبات/القوائم من قبل المستخدم، نستخدمها أولاً
+  if (state.menuNames && state.menuNames[key]) {
+    return state.menuNames[key];
+  }
+  // ديناميكية اسم التطبيق في الفوتر
+  if (key === 'sidebar_footer_app') {
+    return `نظام ${state.appName || 'VetStock'} الإحترافي v1.0`;
+  }
   // العودة دائماً للغة العربية لضمان استقرار الواجهات التفاعلية والحسابات
   if (translations['ar'] && translations['ar'][key]) {
     return translations['ar'][key];

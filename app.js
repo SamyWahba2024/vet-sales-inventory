@@ -44,6 +44,27 @@ function initApp() {
         state.transactions = state.transactions.filter(t => t.type !== 'sales_z' && !t.id.startsWith('Z-'));
       }
       
+      // تحويل سند قبض S-68 إلى فاتورة مبيعات إذا كان مسجلاً كسند قبض
+      if (state.transactions) {
+        const targetTx = state.transactions.find(t => {
+          if (!t.id) return false;
+          const cleanedId = t.id.toUpperCase().replace('#', '').trim();
+          return cleanedId === 'S-68';
+        });
+        if (targetTx && targetTx.type === 'payment') {
+          targetTx.type = 'sales';
+          targetTx.items = targetTx.items || [];
+          targetTx.subtotal = 0;
+          targetTx.discount = 0;
+          targetTx.vat_active = false;
+          targetTx.vat_amount = 0;
+          targetTx.total = Number(targetTx.amount) || 0;
+          delete targetTx.amount;
+          delete targetTx.notes;
+          console.log("Migration: Converted transaction S-68 from payment to sales invoice.");
+        }
+      }
+      
       let maxSalesNum = 77; // الحد الأدنى الافتراضي للترقيم بعد S77
       if (state.transactions) {
         state.transactions.forEach(t => {

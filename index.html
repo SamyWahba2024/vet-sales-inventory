@@ -940,6 +940,31 @@
           </button>
         </div>
 
+        <!-- لوحة إدارة المناطق الجغرافية -->
+        <div class="alert-panel" style="border-right: 4px solid var(--secondary); margin-top: 24px;">
+          <div class="panel-header">
+            <h2><i class="fa-solid fa-map-location-dot" style="color: var(--secondary);"></i> <span data-translate="set_regions_title">إدارة المناطق الجغرافية</span></h2>
+          </div>
+          <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 20px; line-height: 1.6;" data-translate="set_regions_desc">
+            يمكنك إضافة مناطق جغرافية جديدة ليتم ربط العملاء بها، أو حذف المناطق غير المستخدمة حالياً من قِبل أي عميل.
+          </p>
+          
+          <div class="form-row" style="display: flex; gap: 15px; margin-bottom: 20px; align-items: flex-end;">
+            <div class="form-group" style="flex: 1; margin-bottom: 0;">
+              <label for="setting-new-region-name" style="font-weight: 600;">اسم المنطقة الجديدة</label>
+              <input type="text" id="setting-new-region-name" class="form-control" placeholder="مثال: المنطقة الشمالية">
+            </div>
+            <button class="btn btn-accent" onclick="addNewRegionSetting()" style="height: 44px; margin-bottom: 0; min-width: 140px;">
+              <i class="fa-solid fa-plus"></i> <span>إضافة المنطقة</span>
+            </button>
+          </div>
+
+          <div style="font-weight: 600; font-size: 13px; margin-bottom: 12px;">المناطق الجغرافية المسجلة حالياً بالبرنامج:</div>
+          <div id="settings-regions-list" style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 10px;">
+            <!-- يتم شحنها برمجياً -->
+          </div>
+        </div>
+
         <div class="alert-panel" style="border-right: 4px solid var(--danger); margin-top: 24px;">
           <div class="panel-header">
             <h2><i class="fa-solid fa-rotate-left" style="color: var(--danger);"></i> <span data-translate="set_reset_title">إعادة الضبط واستيراد قاعدة البيانات الافتراضية</span></h2>

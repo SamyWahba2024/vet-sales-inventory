@@ -38,6 +38,9 @@ function initApp() {
       if (state.prefixPurchase === undefined) state.prefixPurchase = 'B-';
       if (state.prefixReturn === undefined) state.prefixReturn = 'R-';
       if (state.prefixPayment === undefined) state.prefixPayment = 'P-';
+      if (!state.regions) {
+        state.regions = ["الغربية", "الوسطى", "الجنوبية", "الشرقية"];
+      }
       
       // هجرة وتطهير قاعدة البيانات التلقائي لحذف مبيعات شركة Z وتثبيت الترقيم بعد S77
       if (state.transactions) {
@@ -138,6 +141,7 @@ function loadDefaultDatabase() {
     state.prefixPurchase = 'B-';
     state.prefixReturn = 'R-';
     state.prefixPayment = 'P-';
+    state.regions = ["الغربية", "الوسطى", "الجنوبية", "الشرقية"];
     saveState();
     console.log("Initialized default database from desktop data.js");
   } else {
@@ -243,6 +247,7 @@ function getPurchasesTotal() {
 // ================= 3. تحديث شاشات العرض والتفاعل (Views Refresh) =================
 
 function refreshAllViews() {
+  populateRegionSelects();
   renderDashboard();
   renderProductTable();
   renderCustomerTable();
@@ -371,26 +376,32 @@ function renderDashboard() {
   `;
 
   // === حساب وتحليل المبيعات الجغرافية حسب المناطق ===
-  const regionSales = { 'الغربية': 0, 'الوسطى': 0, 'الجنوبية': 0, 'الشرقية': 0 };
+  const regionsList = state.regions || ['الغربية', 'الوسطى', 'الجنوبية', 'الشرقية'];
+  const regionSales = {};
+  regionsList.forEach(r => {
+    regionSales[r] = 0;
+  });
   let totalSalesVal = 0;
 
   // احتساب مبيعات كل منطقة بالمرور على الفواتير المكتملة
   state.transactions.forEach(t => {
     if (t.type === 'sales' || t.type === 'sales_vaxigen') {
       const customer = state.customers.find(c => c.name === t.customer);
-      const region = customer ? customer.region : 'الغربية'; // افتراضي للغربية في حال تعذر التحديد
+      const region = customer ? customer.region : regionsList[0]; // افتراضي لأول منطقة
+      if (regionSales[region] === undefined) {
+        regionSales[region] = 0;
+      }
       regionSales[region] += Number(t.total) || 0;
       totalSalesVal += Number(t.total) || 0;
     }
   });
 
-  // درجات الألوان الفاخرة لكل منطقة من المناطق الأربعة
-  const regionColors = {
-    'الغربية': '#10b981', // أخضر زمردي
-    'الوسطى': '#e0a96d',  // ذهبي معدني
-    'الجنوبية': '#06b6d4', // سيان متوهج
-    'الشرقية': '#3b82f6'  // أزرق ملكي
-  };
+  // درجات الألوان الفاخرة لكل منطقة
+  const defaultColors = ['#10b981', '#e0a96d', '#06b6d4', '#3b82f6', '#ec4899', '#8b5cf6', '#f59e0b', '#ef4444'];
+  const regionColors = {};
+  regionsList.forEach((reg, idx) => {
+    regionColors[reg] = defaultColors[idx % defaultColors.length];
+  });
 
   // رسم المخطط الدائري التفاعلي باستخدام SVG
   // نصف قطر الدائرة 40، المحيط التقريبي هو 251.3
@@ -399,20 +410,15 @@ function renderDashboard() {
   let accumulatedPercent = 0;
   let svgCircles = "";
 
-  const regionsList = ['الغربية', 'الوسطى', 'الجنوبية', 'الشرقية'];
-  const regionNames = {
-    'ar': { 'الغربية': 'الغربية', 'الوسطى': 'الوسطى', 'الجنوبية': 'الجنوبية', 'الشرقية': 'الشرقية' },
-    'en': { 'الغربية': 'Western', 'الوسطى': 'Central', 'الجنوبية': 'Southern', 'الشرقية': 'Eastern' }
-  };
   const lang = state.currentLang || 'ar';
-  const getRegionName = (reg) => (regionNames[lang] && regionNames[lang][reg]) || reg;
+  const getRegionName = (reg) => reg;
   
   let listHtml = "";
 
   regionsList.forEach(reg => {
-    const amount = regionSales[reg];
+    const amount = regionSales[reg] || 0;
     const pct = totalSalesVal > 0 ? (amount / totalSalesVal) * 100 : 0;
-    const color = regionColors[reg];
+    const color = regionColors[reg] || '#71717a';
     
     // بناء أجزاء الدائرة SVG
     if (pct > 0) {
@@ -1598,6 +1604,7 @@ function openCustomerModal(index = null) {
   const form = document.getElementById('customer-form');
   
   form.reset();
+  populateRegionSelects();
   modal.classList.add('active');
 
   if (index !== null) {
@@ -1942,6 +1949,106 @@ function applyCustomNamesToDOM() {
   const logoText = document.getElementById('logo-text');
   if (logoText) {
     logoText.innerText = state.appName || 'VetStock Pro';
+  }
+}
+
+// تعبئة حقول اختيار المناطق جغرافياً بشكل ديناميكي
+function populateRegionSelects() {
+  const custRegionSelect = document.getElementById('cust-region');
+  const filterRegionSelect = document.getElementById('filter-region');
+  
+  const regions = state.regions || ["الغربية", "الوسطى", "الجنوبية", "الشرقية"];
+  
+  if (custRegionSelect) {
+    const currentVal = custRegionSelect.value;
+    let html = "";
+    regions.forEach(r => {
+      html += `<option value="${r}">${r}</option>`;
+    });
+    custRegionSelect.innerHTML = html;
+    if (currentVal && regions.includes(currentVal)) {
+      custRegionSelect.value = currentVal;
+    }
+  }
+  
+  if (filterRegionSelect) {
+    const currentVal = filterRegionSelect.value;
+    let html = `<option value="all" data-translate="filter_region_all">كل المناطق</option>`;
+    regions.forEach(r => {
+      html += `<option value="${r}">${r}</option>`;
+    });
+    filterRegionSelect.innerHTML = html;
+    filterRegionSelect.value = currentVal || "all";
+  }
+}
+
+// تعبئة قائمة المناطق في صفحة الإعدادات
+function populateSettingsRegionsList() {
+  const wrapper = document.getElementById('settings-regions-list');
+  if (!wrapper) return;
+  
+  const regions = state.regions || ["الغربية", "الوسطى", "الجنوبية", "الشرقية"];
+  
+  let html = "";
+  regions.forEach(r => {
+    // التحقق مما إذا كانت المنطقة مستخدمة من قبل عملاء حاليين
+    const isUsed = state.customers.some(c => c.region === r);
+    
+    html += `
+      <div style="display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.05); padding: 6px 12px; border-radius: 20px; border: 1px solid var(--border-color); font-size: 13px; color: #fff;">
+        <span>${r}</span>
+        ${isUsed ? 
+          `<span style="font-size: 10px; color: var(--text-muted);">(مستعملة)</span>` : 
+          `<button onclick="deleteRegionSetting('${r}')" style="background: none; border: none; color: var(--danger); cursor: pointer; padding: 0 4px; font-size: 12px;" title="حذف المنطقة"><i class="fa-solid fa-xmark"></i></button>`
+        }
+      </div>
+    `;
+  });
+  wrapper.innerHTML = html || `<span style="font-size:12px; color:var(--text-muted);">لا توجد أي مناطق مضافة حالياً.</span>`;
+}
+
+// إضافة منطقة جديدة
+function addNewRegionSetting() {
+  const input = document.getElementById('setting-new-region-name');
+  if (!input) return;
+  const name = input.value.trim();
+  
+  if (!name) {
+    alert("برجاء إدخال اسم المنطقة أولاً.");
+    return;
+  }
+  
+  if (!state.regions) {
+    state.regions = ["الغربية", "الوسطى", "الجنوبية", "الشرقية"];
+  }
+  
+  if (state.regions.includes(name)) {
+    alert("هذه المنطقة مسجلة مسبقاً في النظام.");
+    return;
+  }
+  
+  state.regions.push(name);
+  saveState();
+  input.value = "";
+  
+  populateRegionSelects();
+  populateSettingsRegionsList();
+  refreshAllViews();
+  
+  alert(`تم إضافة المنطقة الجديدة "${name}" بنجاح!`);
+}
+
+// حذف منطقة
+function deleteRegionSetting(regionName) {
+  if (confirm(`هل أنت متأكد من رغبتك بحذف المنطقة "${regionName}"؟`)) {
+    state.regions = (state.regions || ["الغربية", "الوسطى", "الجنوبية", "الشرقية"]).filter(r => r !== regionName);
+    saveState();
+    
+    populateRegionSelects();
+    populateSettingsRegionsList();
+    refreshAllViews();
+    
+    alert(`تم حذف المنطقة "${regionName}" بنجاح!`);
   }
 }
 
@@ -2740,6 +2847,7 @@ function switchSection(sectionId) {
   } else if (sectionId === 'settings') {
     populateNumberingInputs();
     populateCustomNamesInputs();
+    populateSettingsRegionsList();
   }
 }
 

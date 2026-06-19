@@ -737,12 +737,121 @@ input:checked + .slider:before {
   margin-bottom: 30px;
 }
 
+/* مظهر التقارير الفاتح وإلغاء التظليل */
 .ledger-view-panel {
-  background: var(--panel-bg);
-  border: 1px solid var(--border-color);
+  background: #ffffff !important;
+  border: 1px solid #e5e7eb !important;
   border-radius: var(--border-radius);
   padding: 30px;
-  box-shadow: var(--shadow);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03) !important;
+}
+
+/* تعيين لون خط داكن وموحد لجميع النصوص في التقارير */
+.ledger-view-panel,
+.ledger-view-panel *,
+.ledger-view-panel span,
+.ledger-view-panel strong,
+.ledger-view-panel div,
+.ledger-view-panel p,
+.ledger-view-panel td {
+  color: #1f2937 !important; /* لون رمادي غامق جداً */
+}
+
+/* العناوين والرموز */
+.ledger-view-panel .company-brand-title,
+.ledger-view-panel .ledger-report-title,
+.ledger-view-panel h2,
+.ledger-view-panel h3 {
+  color: #111827 !important; /* أسود صريح */
+}
+
+.ledger-view-panel .company-logo-container i {
+  color: #ffffff !important; /* الحفاظ على لون أيقونة الهيدر بيضاء */
+}
+
+/* شريط فلاتر التقارير العلوي */
+.ledger-view-panel .ledger-meta-info {
+  border-color: #e5e7eb !important;
+}
+
+/* ألواح الإحصائيات (KPIs) في التقارير */
+.ledger-view-panel .alert-panel {
+  background: #f9fafb !important;
+  border: 1px solid #e5e7eb !important;
+  border-right-width: 4px !important; /* الاحتفاظ بالخط الجانبي الملون */
+  box-shadow: none !important;
+}
+
+.ledger-view-panel .alert-panel span {
+  color: #4b5563 !important;
+}
+
+/* الحفاظ على ألوان التنبيهات والأرقام الهامة في التقارير */
+.ledger-view-panel .alert-panel strong[style*="color: var(--danger)"],
+.ledger-view-panel td[style*="color: var(--danger)"],
+.ledger-view-panel td[style*="color:var(--danger)"],
+.ledger-view-panel tr[style*="color: var(--danger)"] *,
+.ledger-view-panel td[style*="color:red"],
+.ledger-view-panel .text-danger,
+.ledger-view-panel .danger-color {
+  color: #dc2626 !important; /* أحمر داكن واضح للقراءة */
+}
+
+.ledger-view-panel .alert-panel strong[style*="color: var(--success)"],
+.ledger-view-panel td[style*="color: var(--success)"],
+.ledger-view-panel td[style*="color:var(--success)"],
+.ledger-view-panel tr[style*="color: var(--success)"] *,
+.ledger-view-panel td[style*="color:green"],
+.ledger-view-panel .text-success {
+  color: #16a34a !important; /* أخضر داكن واضح للقراءة */
+}
+
+.ledger-view-panel .alert-panel strong[style*="color: var(--warning)"],
+.ledger-view-panel td[style*="color: var(--warning)"],
+.ledger-view-panel td[style*="color:var(--warning)"],
+.ledger-view-panel tr[style*="color: var(--warning)"] *,
+.ledger-view-panel .text-warning {
+  color: #d97706 !important; /* برتقالي داكن واضح للقراءة */
+}
+
+/* الجداول وتنسيقات الأسطر وإلغاء التظليل */
+.ledger-view-panel .data-table {
+  border: 1px solid #e5e7eb !important;
+}
+
+.ledger-view-panel .data-table th {
+  background: #f3f4f6 !important; /* خلفية رمادية فاتحة جداً للهيدر */
+  color: #374151 !important; /* رمادي غامق للهيدر */
+  border-bottom: 2px solid #e5e7eb !important;
+  font-weight: 700 !important;
+}
+
+.ledger-view-panel .data-table td {
+  border-bottom: 1px solid #f3f4f6 !important;
+}
+
+/* إلغاء تظليل وتلوين الخلفيات للأسطر الفردية أو الملونة في الجداول بالكامل */
+.ledger-view-panel .data-table tr,
+.ledger-view-panel .data-table tbody tr,
+.ledger-view-panel .data-table tbody tr:hover {
+  background: #ffffff !important; /* خلفية بيضاء نقية بدون أي تظليل */
+}
+
+/* إضافة خط علوي عريض لمجموع الصف الأخير في الجدول بدلاً من تظليله */
+.ledger-view-panel .data-table tr[style*="border-top: 2px solid"],
+.ledger-view-panel .data-table tr[style*="border-top:2px solid"] {
+  border-top: 2px solid #9ca3af !important;
+}
+
+/* الشارات الجغرافية والموقع */
+.ledger-view-panel .badge-info {
+  background: #eff6ff !important;
+  color: #2563eb !important;
+  border: 1px solid #bfdbfe !important;
+}
+
+.ledger-view-panel .badge-info i {
+  color: #2563eb !important;
 }
 
 .ledger-header {

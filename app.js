@@ -2867,6 +2867,66 @@ function downloadCSV(csvContent, filename) {
   document.body.removeChild(link);
 }
 
+// د. تصدير التقرير المالي المعروض حالياً إلى إكسل
+function exportReportToExcel() {
+  const resultsWrapper = document.getElementById('report-results-wrapper');
+  if (!resultsWrapper || resultsWrapper.style.display === 'none') {
+    alert("لا توجد بيانات تقرير معروضة حالياً لتصديرها. يرجى توليد تقرير أولاً.");
+    return;
+  }
+
+  const tableHead = document.getElementById('report-table-head');
+  const tableBody = document.getElementById('report-table-tbody');
+  
+  if (!tableHead || !tableBody) {
+    alert("تعذر العثور على جدول التقرير.");
+    return;
+  }
+  
+  const title = document.getElementById('lbl-report-title').innerText || "تقرير_مالي";
+  
+  const headers = [];
+  const headerRow = tableHead.querySelector('tr');
+  if (headerRow) {
+    headerRow.querySelectorAll('th').forEach(th => {
+      headers.push(th.innerText.trim());
+    });
+  }
+  
+  const rows = [];
+  tableBody.querySelectorAll('tr').forEach(tr => {
+    const row = [];
+    tr.querySelectorAll('td').forEach(td => {
+      let cellText = td.innerText.trim();
+      // استبدال المسافات المتكررة بمسافة واحدة
+      cellText = cellText.replace(/\s+/g, ' ');
+      row.push(cellText);
+    });
+    if (row.length > 0) {
+      rows.push(row);
+    }
+  });
+  
+  if (headers.length === 0 && rows.length === 0) {
+    alert("التقرير فارغ ولا يحتوي على بيانات لتصديرها.");
+    return;
+  }
+  
+  // بناء محتوى الـ CSV
+  const csvContent = [headers, ...rows].map(r => r.map(field => {
+    let f = String(field === undefined || field === null ? '' : field);
+    if (f.includes(',') || f.includes('\n') || f.includes('"')) {
+      f = '"' + f.replace(/"/g, '""') + '"';
+    }
+    return f;
+  }).join(',')).join('\n');
+  
+  // تنظيف اسم الملف من الرموز غير الصالحة للملفات
+  const safeTitle = title.replace(/[^a-zA-Z0-9\u0600-\u06FF\s-_]/g, '').trim().replace(/\s+/g, '_');
+  const dateStr = new Date().toISOString().slice(0, 10);
+  downloadCSV(csvContent, `${safeTitle}_${dateStr}.csv`);
+}
+
 // أ. تصدير الأصناف البيطرية إلى إكسل
 function exportProductsToCSV() {
   const headers = [
@@ -3439,6 +3499,7 @@ const translations = {
     rep_select_product: "اختر الصنف البيطري",
     rep_generate_btn: "توليد التقرير المالي",
     rep_print_btn: "طباعة التقرير / تصدير PDF",
+    rep_export_excel_btn: "تصدير التقرير إلى إكسل",
     rep_dept_label: "قسم الاستيراد وتجارة المنتجات البيطرية",
     rep_db_status_label: "حالة قاعدة البيانات",
     rep_db_status_val: "متصل ومحدثة",
@@ -3770,6 +3831,7 @@ const translations = {
     rep_select_product: "Select Veterinary Product",
     rep_generate_btn: "Generate Report",
     rep_print_btn: "Print Report / Export PDF",
+    rep_export_excel_btn: "Export Report to Excel",
     rep_dept_label: "Veterinary Products Trading & Import Department",
     rep_db_status_label: "Database Status",
     rep_db_status_val: "Connected & Up to Date",

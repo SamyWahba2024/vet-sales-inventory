@@ -2180,6 +2180,7 @@ function generateFinancialReport() {
     let totalSold = 0;
     let totalPurchased = 0;
     let totalReturned = 0;
+    let totalSalesRevenue = 0;
     let movements = [];
     
     state.transactions.forEach(tRow => {
@@ -2196,6 +2197,7 @@ function generateFinancialReport() {
       
       if (tRow.type === 'sales' || tRow.type === 'sales_vaxigen') {
         totalSold += qty;
+        totalSalesRevenue += rowTotal;
         movements.push({
           date: tRow.date,
           id: tRow.id,
@@ -2241,11 +2243,16 @@ function generateFinancialReport() {
     const currentStock = calculateProductStock(prodCode);
     const stockVal = currentStock * (Number(prod.price_sell) || 0);
     const netMoved = totalPurchased + totalReturned - totalSold;
+    const avgSalesPrice = totalSold > 0 ? (totalSalesRevenue / totalSold) : 0;
     
     kpisHtml = `
       <div class="alert-panel" style="border-right: 4px solid var(--success); padding: 15px;">
         <span style="font-size:12px; color:var(--text-muted); display:block; margin-bottom:5px;">${t('rep_kpi_total_sales_qty')}</span>
         <strong style="font-size:20px; color:#fff;">${totalSold} ${prod.unit}</strong>
+      </div>
+      <div class="alert-panel" style="border-right: 4px solid var(--primary); padding: 15px;">
+        <span style="font-size:12px; color:var(--text-muted); display:block; margin-bottom:5px;">${t('rep_kpi_avg_sell_price')}</span>
+        <strong style="font-size:20px; color:#fff;">${avgSalesPrice.toFixed(2)} ${t('currency')}</strong>
       </div>
       <div class="alert-panel" style="border-right: 4px solid var(--warning); padding: 15px;">
         <span style="font-size:12px; color:var(--text-muted); display:block; margin-bottom:5px;">${t('rep_kpi_total_purchases_qty')}</span>
@@ -3519,6 +3526,7 @@ const translations = {
     rep_label_target_prod: "الصنف المستهدف",
     rep_label_target_cust: "العميل المستهدف",
     rep_kpi_total_sales_qty: "إجمالي المبيعات (الكمية)",
+    rep_kpi_avg_sell_price: "متوسط سعر البيع بالفترة",
     rep_kpi_total_purchases_qty: "إجمالي المشتريات (الكمية)",
     rep_kpi_total_returns_qty: "إجمالي المرتجع (الكمية)",
     rep_kpi_net_movement: "صافي الحركة بالفترة",
@@ -3851,6 +3859,7 @@ const translations = {
     rep_label_target_prod: "Target Product",
     rep_label_target_cust: "Target Customer",
     rep_kpi_total_sales_qty: "Total Sales Qty",
+    rep_kpi_avg_sell_price: "Avg Selling Price in Period",
     rep_kpi_total_purchases_qty: "Total Purchases Qty",
     rep_kpi_total_returns_qty: "Total Returns Qty",
     rep_kpi_net_movement: "Net Period Movement",
